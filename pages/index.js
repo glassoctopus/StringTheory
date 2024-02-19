@@ -1,9 +1,9 @@
 import { Button } from 'react-bootstrap';
 import { signOut } from '../utils/auth';
-import { useAuth } from '../utils/context/authContext';
+// import { useAuth } from '../utils/context/authContext';
 
 function Home() {
-  const { user } = useAuth();
+  // const { user } = useAuth();
 
   return (
     <div
@@ -15,11 +15,19 @@ function Home() {
         margin: '0 auto',
       }}
     >
-      <h1>Hello {user.displayName}! </h1>
-      <p>Click the button below to logout!</p>
-      <Button variant="danger" type="button" size="lg" className="copy-btn" onClick={signOut}>
-        Sign Out
-      </Button>
+      <div className="grid-container">
+        <div key={1} className="grid-item">*</div>
+        <div key={2} className="grid-item">*</div>
+        <div key={3} className="grid-item">*</div>
+        <div key={4} className="grid-item">*</div>
+        <div key={5} className="grid-item">
+          <Button variant="danger" type="button" size="lg" className="copy-btn" onClick={signOut}>Sign Out</Button>
+        </div>
+        <div key={6} className="grid-item">*</div>
+        <div key={7} className="grid-item">*</div>
+        <div key={8} className="grid-item">*</div>
+        <div key={9} className="grid-item">*</div>
+      </div>
     </div>
   );
 }

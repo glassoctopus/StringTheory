@@ -4,6 +4,7 @@ html,
 body {
   padding: 0;
   margin: 0;
+  background-image: url('/NotBadStarfield.png');
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
@@ -18,5 +19,30 @@ a {
 }
 
 body {
-  background-color: #88effd;
+  background-color: black;
+}
+
+div{
+  border-style: double;
+}
+
+h3{
+  color: white;
+}
+
+a{
+  color: rgb(122, 122, 238);
+}
+.grid-container {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  background-color: #2196F3;
+  padding: 10px;
+}
+.grid-item {
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(0, 0, 0, 0.8);
+  padding: 20px;
+  font-size: 30px;
+  text-align: center;
 }
