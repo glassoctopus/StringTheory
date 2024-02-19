@@ -41,7 +41,7 @@ function UserForm({ obj }) {
       createUser(payload).then(({ name }) => {
         const patchPayload = { userId: name };
         updateUser(patchPayload).then(() => {
-          //   router.push('/team.js');
+          router.push('/');
         });
       });
     }
@@ -71,7 +71,7 @@ function UserForm({ obj }) {
       </FloatingLabel>
 
       <div>
-        <h3>Enter the Hex color in the box above. The thin line changes the color of the rectangle below, grab and slide, user. Click the box to make it show up as a hex. Then enter the hex # in the box to change your color, thank you!</h3><a href="https://www.w3schools.com/colors/colors_picker.asp" target="_blank" rel="noreferrer">Way more trust worthy, than what&#39;s on this form...</a>
+        <h3>Enter the Hex color in the box above.</h3><a href="https://www.w3schools.com/colors/colors_picker.asp" target="_blank" rel="noreferrer">If you need some color ideas in hex format, clik this link.</a>
       </div>
 
       {/* SUBMIT BUTTON */}
