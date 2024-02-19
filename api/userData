@@ -2,7 +2,7 @@ import { clientCredentials } from '../utils/client';
 // API CALLS FOR users
 
 const endpoint = clientCredentials.databaseURL;
-console.log(endpoint);
+console.log(clientCredentials);
 
 const getUsers = (uid) => new Promise((resolve, reject) => {
   fetch(`${endpoint}/users.json?orderBy="uid"&equalTo="${uid}"`, {
