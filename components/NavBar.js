@@ -23,8 +23,11 @@ export default function NavBar() {
             <Link passHref href="/newUser">
               <Nav.Link>newUser</Nav.Link>
             </Link>
-            <Link passHref href="/">
+            <Link passHref href="/createPost">
               <Nav.Link>NewPost</Nav.Link>
+            </Link>
+            <Link passHref href="/postSpace">
+              <Nav.Link>MyPosts</Nav.Link>
             </Link>
             <Button variant="danger" onClick={signOut}>Sign Out</Button>
           </Nav>

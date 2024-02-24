@@ -1,6 +1,6 @@
 import { Button } from 'react-bootstrap';
 import { signOut } from '../utils/auth';
-// import { useAuth } from '../utils/context/authContext';
+// import { useAuth } from './utils/context/authContext';
 
 function Home() {
   // const { user } = useAuth();
