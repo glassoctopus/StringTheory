@@ -20,6 +20,7 @@ function PostSpace() {
   // make the call to the API to get all the Posts on component render
   useEffect(() => {
     getAllThePosts();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
