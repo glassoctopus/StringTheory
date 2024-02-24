@@ -7,6 +7,7 @@ import Button from 'react-bootstrap/Button';
 import { useAuth } from '../utils/context/authContext';
 // eslint-disable-next-line import/extensions
 import { createUser, updateUser } from '../api/userData';
+import rightNow from '../utils/aTimeStamp';
 
 const initialState = {
   bio: '',
@@ -16,7 +17,6 @@ const initialState = {
 };
 function UserForm({ obj }) {
   const [formInput, setFormInput] = useState(initialState);
-  // const [Users, setUsers] = useState([]);
   const router = useRouter();
   const { user } = useAuth();
 
@@ -34,14 +34,16 @@ function UserForm({ obj }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const timeStamp = rightNow();
+    console.log('at ', timeStamp, 'user was created');
     if (obj.userId) {
       updateUser(formInput).then(() => router.push(`/users/${obj.userId}`));
     } else {
-      const payload = { ...formInput, uid: user.uid };
+      const payload = { ...formInput, time: timeStamp, uid: user.uid };
       createUser(payload).then(({ name }) => {
-        const patchPayload = { userId: name };
+        const patchPayload = { ...payload, userId: name };
         updateUser(patchPayload).then(() => {
-          router.push('/');
+          router.push('/postSpace');
         });
       });
     }
@@ -65,8 +67,9 @@ function UserForm({ obj }) {
       <FloatingLabel controlId="floatingTextarea" label="Bio" className="mb-3">
         <Form.Control as="textarea" placeholder="Bio" style={{ height: '100px' }} name="bio" value={formInput.bio} onChange={handleChange} required />
       </FloatingLabel>
-      {/* name INPUT */}
-      <FloatingLabel controlId="floatingInput1" label="User Color" className="mb-3">
+
+      {/* color INPUT */}
+      <FloatingLabel controlId="floatingInput3" label="User Color" className="mb-3">
         <Form.Control type="text" placeholder="Enter Hex# color here" name="color" value={formInput.color} onChange={handleChange} required />
       </FloatingLabel>
 
@@ -87,6 +90,7 @@ UserForm.propTypes = {
     email: PropTypes.string,
     name: PropTypes.string,
     color: PropTypes.string,
+    time: PropTypes.string,
   }),
 };
 

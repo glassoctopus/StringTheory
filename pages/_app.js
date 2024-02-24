@@ -4,23 +4,26 @@ import '../styles/globals.css';
 import Head from 'next/head';
 import { AuthProvider } from '../utils/context/authContext';
 import ViewDirectorBasedOnUserAuthStatus from '../utils/ViewDirector';
+import { UserProvider } from '../utils/context/userContext';
 
 function MyApp({ Component, pageProps }) {
   return (
     <div>
-      {/* <div className="stars" /> */}
       <Head>
         <link rel="icon" href="/favicon.png" />
       </Head>
-      <AuthProvider> {/* gives children components access to user and auth methods */}
-        <ViewDirectorBasedOnUserAuthStatus
+      <UserProvider>
+        <AuthProvider> {/* gives children components access to user and auth methods */}
+
+          <ViewDirectorBasedOnUserAuthStatus
         // if status is pending === loading
         // if status is logged in === view app
         // if status is logged out === sign in page
-          component={Component}
-          pageProps={pageProps}
-        />
-      </AuthProvider>
+            component={Component}
+            pageProps={pageProps}
+          />
+        </AuthProvider>
+      </UserProvider>
     </div>
   );
 }

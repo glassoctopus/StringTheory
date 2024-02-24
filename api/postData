@@ -1,10 +1,10 @@
 import { clientCredentials } from '../utils/client';
-// API CALLS FOR users
+// API CALLS FOR Posts
 
 const endpoint = clientCredentials.databaseURL;
 
-const getUsers = (uid) => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/users.json?orderBy="uid"&equalTo="${uid}"`, {
+const getPosts = (thePostersId) => new Promise((resolve, reject) => {
+  fetch(`${endpoint}/posts.json?orderBy="thePostersId"&equalTo="${thePostersId}"`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -15,8 +15,8 @@ const getUsers = (uid) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
-const deleteUser = (userId) => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/users/${userId}.json`, {
+const deletePost = (PostId) => new Promise((resolve, reject) => {
+  fetch(`${endpoint}/posts/${PostId}.json`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
@@ -27,8 +27,8 @@ const deleteUser = (userId) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
-const getSingleUser = (uid) => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/users.json?orderBy="uid"&equalTo="${uid}"`, {
+const getSinglePost = (PostId) => new Promise((resolve, reject) => {
+  fetch(`${endpoint}/posts/${PostId}.json`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -39,8 +39,8 @@ const getSingleUser = (uid) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
-const createUser = (payload) => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/users.json`, {
+const createPost = (payload) => new Promise((resolve, reject) => {
+  fetch(`${endpoint}/posts.json`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -52,8 +52,8 @@ const createUser = (payload) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
-const updateUser = (payload) => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/users/${payload.userId}.json`, {
+const updatePost = (payload) => new Promise((resolve, reject) => {
+  fetch(`${endpoint}/posts/${payload.postId}.json`, {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
@@ -66,9 +66,9 @@ const updateUser = (payload) => new Promise((resolve, reject) => {
 });
 
 export {
-  getUsers,
-  createUser,
-  deleteUser,
-  getSingleUser,
-  updateUser,
+  getPosts,
+  createPost,
+  deletePost,
+  getSinglePost,
+  updatePost,
 };
