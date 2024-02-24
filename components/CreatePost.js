@@ -1,13 +1,11 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { useRouter } from 'next/router';
 import Button from 'react-bootstrap/Button';
 import rightNow from '../utils/aTimeStamp';
 import { useAuth } from '../utils/context/authContext';
 // eslint-disable-next-line import/extensions
-import { createPost, deletePost } from '../api/postData';
-// eslint-disable-next-line import/extensions
-import { getSingleUser } from '../api/userData';
-import UserContext from '../utils/context/userContext';
+import { createPost, deletePost, updatePost } from '../api/postData';
 
 const initialState = {
   postId: '',
@@ -21,31 +19,21 @@ const initialState = {
 
 function CreatePost({ onUpdate }) {
   const [posting, setPosting] = useState(initialState);
-  const [thisPoster, setThisPoster] = useState(null);
+  const [charCount, setCharCount] = useState(0);
+  const router = useRouter();
   const { user } = useAuth();
-  const { userObject } = useContext(UserContext);
-  console.warn('userObject', userObject);
-  console.warn('user', user.uid);
-
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const authUserObject = await getSingleUser(user.uid);
-        setThisPoster(authUserObject);
-      } catch (error) {
-        console.warn('Error fetching user:', error);
-      }
-    };
-
-    fetchUserData();
-  }, [user.uid]);
+  console.warn('user', user);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    if (value.length > 666) {
+      return;
+    }
     setPosting((prevState) => ({
       ...prevState,
       [name]: value,
     }));
+    setCharCount(value.length);
   };
 
   const deleteThisPost = () => {
@@ -65,14 +53,19 @@ function CreatePost({ onUpdate }) {
         const timeStamp = rightNow();
         const payload = {
           postBody: posting.postBody,
-          postersName: thisPoster?.name || '',
+          postersName: user?.name || '',
           timeStamp,
-          thePostersId: thisPoster?.userId || '',
-          color: thisPoster?.color || '',
+          thePostersId: user?.uid || '',
+          color: user?.color || '',
+          isGhost: false,
         };
         console.warn('payload', payload);
-        createPost(payload).then(() => {
-          alert('posted');
+        createPost(payload).then(({ name }) => {
+          const patchPayload = { ...payload, postId: name };
+          updatePost(patchPayload).then(() => {
+            alert('posted');
+            router.push('/postSpace');
+          });
         });
       }
     }
@@ -82,15 +75,16 @@ function CreatePost({ onUpdate }) {
     <div
       className="card"
       style={{
-        width: '31rem', margin: '10px', border: '1px double white', background: 'transparent',
+        width: '31rem', margin: '10px', border: `7px double #${user.color}`, background: 'transparent', color: `#${user.color}`,
       }}
     >
       <div className="card-header">
-        <div className="card-title">{`${posting?.postersName} to post at about: ${rightNow()}`}</div>
+        <div className="card-title">{`${user?.name} is thinking about posting on ${rightNow()}`}</div>
       </div>
-      <div className="card-content">
-        <textarea type="text" name="postBody" value={posting.postBody} onChange={handleChange} />
+      <div>
+        <textarea style={{ background: 'transparent', color: `#${user.color}`, width: '100%' }} type="text" name="postBody" value={posting.postBody} onChange={handleChange} />
       </div>
+      your post is at {charCount} chars of 666
       <div className="card-footer">
         <Button variant="primary" onClick={postThisPost} className="m-2">Post</Button>
         <Button variant="danger" onClick={deleteThisPost} className="m-2">Forget about it</Button>

@@ -8,6 +8,8 @@ import React, {
   useState,
 } from 'react';
 import { firebase } from '../client';
+// eslint-disable-next-line import/extensions
+import { getSingleUser } from '../../api/userData';
 
 const AuthContext = createContext();
 
@@ -24,7 +26,26 @@ const AuthProvider = (props) => {
   useEffect(() => {
     firebase.auth().onAuthStateChanged((fbUser) => {
       if (fbUser) {
-        setUser(fbUser);
+        getSingleUser(fbUser.uid)
+          .then((userDataArray) => {
+            const userData = userDataArray[0];
+            console.warn('userDataArray', userDataArray);
+            console.warn('userData', userData);
+            console.warn('fbUser', fbUser);
+            // Extract specific properties from userData
+            const mergedUser = {
+              name: userData.name,
+              color: userData.color,
+              born: userData.born,
+              uid: fbUser.uid,
+            };
+            console.warn('mergedUser', mergedUser);
+            // Update user state with mergedUser
+            setUser(mergedUser);
+          })
+          .catch((error) => {
+            console.error('Error fetching user data:', error);
+          });
       } else {
         setUser(false);
       }
