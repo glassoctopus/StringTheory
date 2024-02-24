@@ -35,7 +35,7 @@ function UserForm({ obj }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     const timeStamp = rightNow();
-    console.log('at ', timeStamp, 'user was created');
+    console.warn('at ', timeStamp, 'user was created');
     if (obj.userId) {
       updateUser(formInput).then(() => router.push(`/users/${obj.userId}`));
     } else {

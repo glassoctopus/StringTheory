@@ -13,7 +13,7 @@ function PostSpace() {
   const getAllThePosts = () => {
     getPosts(user.uid).then((PostsData) => {
       setPosts(PostsData);
-      console.log('PostsData', PostsData);
+      console.warn('PostsData', PostsData);
     });
   };
 

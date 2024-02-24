@@ -14,7 +14,7 @@ function PostCard({ postObj, onUpdate }) {
     }
   };
 
-  console.log(postObj.color);
+  console.warn(postObj.color);
 
   return (
     <div
