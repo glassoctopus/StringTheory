@@ -22,7 +22,7 @@ function PostCard({ postObj, onUpdate }) {
       style={{
         width: '31rem',
         margin: '10px',
-        border: `1px double #${postObj.color}`,
+        border: `7px double #${postObj.color}`,
         background: 'transparet',
         color: `#${postObj.color}`,
       }}

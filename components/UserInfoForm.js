@@ -39,7 +39,7 @@ function UserForm({ obj }) {
     if (obj.userId) {
       updateUser(formInput).then(() => router.push(`/users/${obj.userId}`));
     } else {
-      const payload = { ...formInput, time: timeStamp, uid: user.uid };
+      const payload = { ...formInput, born: timeStamp, uid: user.uid };
       createUser(payload).then(({ name }) => {
         const patchPayload = { ...payload, userId: name };
         updateUser(patchPayload).then(() => {
@@ -90,7 +90,7 @@ UserForm.propTypes = {
     email: PropTypes.string,
     name: PropTypes.string,
     color: PropTypes.string,
-    time: PropTypes.string,
+    born: PropTypes.string,
   }),
 };
 
