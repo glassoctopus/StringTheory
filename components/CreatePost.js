@@ -24,8 +24,8 @@ function CreatePost({ onUpdate }) {
   const [thisPoster, setThisPoster] = useState(null);
   const { user } = useAuth();
   const { userObject } = useContext(UserContext);
-  console.log('userObject', userObject);
-  console.log('user', user.uid);
+  console.warn('userObject', userObject);
+  console.warn('user', user.uid);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -33,7 +33,7 @@ function CreatePost({ onUpdate }) {
         const authUserObject = await getSingleUser(user.uid);
         setThisPoster(authUserObject);
       } catch (error) {
-        console.error('Error fetching user:', error);
+        console.warn('Error fetching user:', error);
       }
     };
 
@@ -70,7 +70,7 @@ function CreatePost({ onUpdate }) {
           thePostersId: thisPoster?.userId || '',
           color: thisPoster?.color || '',
         };
-        console.log('payload', payload);
+        console.warn('payload', payload);
         createPost(payload).then(() => {
           alert('posted');
         });
