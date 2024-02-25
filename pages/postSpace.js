@@ -33,7 +33,12 @@ function PostSpace() {
         margin: '0 auto',
       }}
     >
-      <div className="d-flex flex-wrap">
+      <div
+        className="d-flex flex-wrap"
+        style={{
+          overflowY: 'scroll',
+        }}
+      >
         {/* <Link href="/new" passHref>
         <Button>Add A Post</Button>
       </Link> */}
