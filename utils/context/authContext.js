@@ -9,7 +9,7 @@ import React, {
 } from 'react';
 import { firebase } from '../client';
 // eslint-disable-next-line import/extensions
-import { getSingleUser } from '../../api/userData';
+import { getSingleUserByFBuid } from '../../api/userData';
 
 const AuthContext = createContext();
 
@@ -26,20 +26,20 @@ const AuthProvider = (props) => {
   useEffect(() => {
     firebase.auth().onAuthStateChanged((fbUser) => {
       if (fbUser) {
-        getSingleUser(fbUser.uid)
+        getSingleUserByFBuid(fbUser.uid)
           .then((userDataArray) => {
             const userData = userDataArray[0];
-            console.warn('userDataArray', userDataArray);
-            console.warn('userData', userData);
-            console.warn('fbUser', fbUser);
             // Extract specific properties from userData
+            console.warn('userData', userData); //
             const mergedUser = {
               name: userData.name,
               color: userData.color,
               born: userData.born,
+              userId: userData.userId,
+              bio: userData.bio,
               uid: fbUser.uid,
             };
-            console.warn('mergedUser', mergedUser);
+            console.warn('mergedUser', mergedUser); // \ this is where you merged the authobj and the user data that you thought you needed thomas.
             // Update user state with mergedUser
             setUser(mergedUser);
           })

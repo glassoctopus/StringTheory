@@ -1,9 +1,10 @@
 import { Button } from 'react-bootstrap';
 import { signOut } from '../utils/auth';
-// import { useAuth } from './utils/context/authContext';
+import { useAuth } from '../utils/context/authContext';
+import UserCard from '../components/UserCard';
 
 function Home() {
-  // const { user } = useAuth();
+  const { user } = useAuth();
 
   return (
     <div
@@ -21,6 +22,7 @@ function Home() {
         <div key={3} className="grid-item">*</div>
         <div key={4} className="grid-item">*</div>
         <div key={5} className="grid-item">
+          <UserCard userObj={user} />
           <Button variant="danger" type="button" size="lg" className="copy-btn" onClick={signOut}>Sign Out</Button>
         </div>
         <div key={6} className="grid-item">*</div>

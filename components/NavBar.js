@@ -5,8 +5,11 @@ import {
   Navbar, Container, Nav, Button,
 } from 'react-bootstrap';
 import { signOut } from '../utils/auth';
+import { useAuth } from '../utils/context/authContext';
 
 export default function NavBar() {
+  const { user } = useAuth();
+  console.log(user);
   return (
     <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
       <Container>
@@ -20,8 +23,8 @@ export default function NavBar() {
             <Link passHref href="/">
               <Nav.Link>Home</Nav.Link>
             </Link>
-            <Link passHref href="/newUser">
-              <Nav.Link>newUser</Nav.Link>
+            <Link passHref href={user.userId ? `/edit/${user.userId}` : '/newUser'}>
+              <Nav.Link>{user.userId ? 'Edit Profile' : 'Create Profile'}</Nav.Link>
             </Link>
             <Link passHref href="/createPost">
               <Nav.Link>NewPost</Nav.Link>

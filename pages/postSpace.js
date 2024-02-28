@@ -13,7 +13,6 @@ function PostSpace() {
   const getAllThePosts = () => {
     getPosts(user.uid).then((PostsData) => {
       setPosts(PostsData);
-      console.warn('PostsData', PostsData);
     });
   };
 
@@ -44,7 +43,7 @@ function PostSpace() {
       </Link> */}
         <h2>{posts ? 'Posts loaded' : 'No Posts'}</h2>
         <h3>{}</h3>
-        {/* TODO: map over books here using BookCard component */}
+        {/* TODO: map over post  */}
         {posts.map((post) => (
           <PostCard key={post.postId} postObj={{ ...post, isGhost: post.isGhost === 'true' }} onUpdate={getAllThePosts} />
         ))}

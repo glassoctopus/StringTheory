@@ -27,7 +27,19 @@ const deleteUser = (userId) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
-const getSingleUser = (uid) => new Promise((resolve, reject) => {
+const getSingleUser = (userId) => new Promise((resolve, reject) => {
+  fetch(`${endpoint}/users/${userId}.json`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+    .then((response) => response.json())
+    .then((data) => resolve((data)))
+    .catch(reject);
+});
+
+const getSingleUserByFBuid = (uid) => new Promise((resolve, reject) => {
   fetch(`${endpoint}/users.json?orderBy="uid"&equalTo="${uid}"`, {
     method: 'GET',
     headers: {
@@ -76,5 +88,6 @@ export {
   createUser,
   deleteUser,
   getSingleUser,
+  getSingleUserByFBuid,
   updateUser,
 };
