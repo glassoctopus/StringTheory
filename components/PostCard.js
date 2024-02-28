@@ -4,17 +4,15 @@ import Button from 'react-bootstrap/Button';
 
 import Link from 'next/link';
 // eslint-disable-next-line import/extensions
-import { deleteUser } from '../api/userData';
+import { deletePost } from '../api/postData';
 
 function PostCard({ postObj, onUpdate }) {
-  // FOR DELETE, WE NEED TO REMOVE THE user AND HAVE THE VIEW RERENDER,
-  const deleteThisUser = () => {
+  // FOR DELETE, WE NEED TO REMOVE THE Post AND HAVE THE VIEW RERENDER,
+  const deleteThisPost = () => {
     if (window.confirm(`Delete ${postObj.postBody}?`)) {
-      deleteUser(postObj.postId).then(() => onUpdate());
+      deletePost(postObj.postId).then(() => onUpdate());
     }
   };
-
-  console.warn(postObj.color);
 
   return (
     <div
@@ -44,7 +42,7 @@ function PostCard({ postObj, onUpdate }) {
         <Link href={`/edit/${postObj.postId}`} passHref>
           <Button variant="info">EDIT</Button>
         </Link>
-        <Button variant="danger" onClick={deleteThisUser} className="m-2">
+        <Button variant="danger" onClick={deleteThisPost} className="m-2">
           DELETE
         </Button>
       </div>
