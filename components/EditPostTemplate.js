@@ -17,7 +17,7 @@ const initialState = {
   isGhost: false,
 };
 
-function CreatePost({ onUpdate }) {
+function EditPostTemplate({ onUpdate }) {
   const [posting, setPosting] = useState(initialState);
   const [charCount, setCharCount] = useState(0);
   const router = useRouter();
@@ -92,9 +92,9 @@ function CreatePost({ onUpdate }) {
   );
 }
 
-CreatePost.propTypes = {
+EditPostTemplate.propTypes = {
   // eslint-disable-next-line react/require-default-props
   onUpdate: PropTypes.func,
 };
 
-export default CreatePost;
+export default EditPostTemplate;
