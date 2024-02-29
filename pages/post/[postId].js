@@ -38,7 +38,7 @@ export default function ViewpPost() {
         >
           <p>{postDetails?.color} is the color selection in hex value for this post.</p>
         </div>
-        <Link href={`post/edit/${postDetails.postId}`} passHref>
+        <Link href={`edit/${postDetails.postId}`} passHref>
           <Button variant="info">EDIT</Button>
         </Link>
         <hr />
