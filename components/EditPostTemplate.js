@@ -26,8 +26,8 @@ const EditPostTemplate = ({ onUpdate }) => {
   const router = useRouter();
   const { postId } = router.query;
   const { user } = useAuth();
-  console.log('posting', posting);
-  console.log('originalPost', originalPost);
+  // console.log('posting', posting);
+  // console.log('originalPost', originalPost);
   let postIdNew = '';
 
   const handleChange = (e, fieldName) => {
@@ -94,16 +94,16 @@ const EditPostTemplate = ({ onUpdate }) => {
           isGhost: false,
           ghostParentPost: posting?.post || '',
         };
-        console.log('payload', editedPayload);
+        // console.log('payload', editedPayload);
         createPost(editedPayload).then(({ name }) => {
           const patchPayload = { ...editedPayload, postId: name };
           const editedPostId = name;
           postIdNew = editedPostId;
-          console.log('edited payload id', editedPostId);
+          // console.log('edited payload id', editedPostId);
           updatePost(patchPayload).then(() => {
             alert('posted');
             const originalPostPayload = { ...originalPost, ghostParentPost: postIdNew, isGhost: true };
-            console.log('originalPostPayload', originalPostPayload);
+            // console.log('originalPostPayload', originalPostPayload);
             createPostEdit(originalPostPayload).then(() => {
               alert('original post ghosted and edited');
               router.push('/postSpace');
