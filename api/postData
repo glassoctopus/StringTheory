@@ -15,6 +15,18 @@ const getPosts = (thePostersId) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
+const getGhostPosts = (ghostParentPostId) => new Promise((resolve, reject) => {
+  fetch(`${endpoint}/connectionPosts.json?orderBy="ghostParentPost"&equalTo="${ghostParentPostId}"`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+    .then((response) => response.json())
+    .then((data) => resolve(Object.values(data)))
+    .catch(reject);
+});
+
 const deletePost = (PostId) => new Promise((resolve, reject) => {
   fetch(`${endpoint}/posts/${PostId}.json`, {
     method: 'DELETE',
@@ -52,6 +64,19 @@ const createPost = (payload) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
+const createPostEdit = (payload) => new Promise((resolve, reject) => {
+  fetch(`${endpoint}/connectionPosts.json`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(payload),
+  })
+    .then((response) => response.json())
+    .then((data) => resolve(data))
+    .catch(reject);
+});
+
 const updatePost = (payload) => new Promise((resolve, reject) => {
   fetch(`${endpoint}/posts/${payload.postId}.json`, {
     method: 'PATCH',
@@ -67,7 +92,9 @@ const updatePost = (payload) => new Promise((resolve, reject) => {
 
 export {
   getPosts,
+  getGhostPosts,
   createPost,
+  createPostEdit,
   deletePost,
   getSinglePost,
   updatePost,

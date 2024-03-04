@@ -6,7 +6,7 @@ import rightNow from '../utils/aTimeStamp';
 import { useAuth } from '../utils/context/authContext';
 import {
   // eslint-disable-next-line no-unused-vars
-  createPost, deletePost, getSinglePost, updatePost,
+  createPost, deletePost, getSinglePost, updatePost, createPostEdit,
 // eslint-disable-next-line import/extensions
 } from '../api/postData';
 
@@ -19,11 +19,16 @@ const EditPostTemplate = ({ onUpdate }) => {
     color: '',
     timeStamp: '',
     isGhost: false,
+    ghostParentPost: '',
   });
+  const [originalPost, setOriginalPost] = useState({});
   const [charCount, setCharCount] = useState(0);
   const router = useRouter();
   const { postId } = router.query;
   const { user } = useAuth();
+  console.log('posting', posting);
+  console.log('originalPost', originalPost);
+  let postIdNew = '';
 
   const handleChange = (e, fieldName) => {
     const { name, value } = e.target;
@@ -51,6 +56,7 @@ const EditPostTemplate = ({ onUpdate }) => {
           ...prevState,
           ...data,
         }));
+        setOriginalPost(data);
       } catch (error) {
         console.error('Error fetching post:', error);
       }
@@ -79,15 +85,34 @@ const EditPostTemplate = ({ onUpdate }) => {
         alert('posting');
         const timeStamp = rightNow();
         // eslint-disable-next-line no-unused-vars
-        const payload = {
+        const editedPayload = {
           postBody: posting.postBody,
           postersName: user?.name || '',
           timeStamp,
           thePostersId: user?.uid || '',
           color: user?.color || '',
           isGhost: false,
+          ghostParentPost: posting?.post || '',
         };
-        // Call your API functions here
+        console.log('payload', editedPayload);
+        createPost(editedPayload).then(({ name }) => {
+          const patchPayload = { ...editedPayload, postId: name };
+          const editedPostId = name;
+          postIdNew = editedPostId;
+          console.log('edited payload id', editedPostId);
+          updatePost(patchPayload).then(() => {
+            alert('posted');
+            const originalPostPayload = { ...originalPost, ghostParentPost: postIdNew, isGhost: true };
+            console.log('originalPostPayload', originalPostPayload);
+            createPostEdit(originalPostPayload).then(() => {
+              alert('original post ghosted and edited');
+              router.push('/postSpace');
+            });
+            deletePost(originalPost.postId).then(() => {
+              alert(`original post deleted, ID: ${originalPost.postId}`);
+            });
+          });
+        });
       }
     }
   };
