@@ -16,18 +16,18 @@ export default function ViewpPost() {
 
   // call to API layer to get the data
   useEffect(() => {
-    console.log(postId);
+    // console.log(postId);
     getSinglePost(postId).then(setPostDetails);
     getGhostPosts(postId).then((ghostPostsData) => {
       setGhostPosts(ghostPostsData);
-      console.log(ghostPosts);
+    //   console.log(ghostPosts);
     });
-  }, [postId]);
+  }, [postId, ghostPosts]);
 
   const getAllTheGhostPosts = () => {
     getGhostPosts(postId).then(() => {
       setGhostPosts(ghostPosts);
-      console.log(ghostPosts);
+    //   console.log(ghostPosts);
     });
   };
 
