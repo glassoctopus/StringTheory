@@ -3,10 +3,12 @@ import { useRouter } from 'next/router';
 import Button from 'react-bootstrap/Button';
 import Link from 'next/link';
 // eslint-disable-next-line import/extensions
-import { getSinglePost } from '../../api/postData';
+import { getSinglePost, getGhostPosts } from '../../api/postData';
+import PostCard from '../../components/PostCard';
 
 export default function ViewpPost() {
   const [postDetails, setPostDetails] = useState({});
+  const [ghostPosts, setGhostPosts] = useState([]);
   const router = useRouter();
 
   // grab postId from url
@@ -14,8 +16,20 @@ export default function ViewpPost() {
 
   // call to API layer to get the data
   useEffect(() => {
+    // console.log(postId);
     getSinglePost(postId).then(setPostDetails);
-  }, [postId]);
+    getGhostPosts(postId).then((ghostPostsData) => {
+      setGhostPosts(ghostPostsData);
+    //   console.log(ghostPosts);
+    });
+  }, [postId, ghostPosts]);
+
+  const getAllTheGhostPosts = () => {
+    getGhostPosts(postId).then(() => {
+      setGhostPosts(ghostPosts);
+    //   console.log(ghostPosts);
+    });
+  };
 
   return (
     <div className="mt-5 d-flex flex-wrap">
@@ -38,10 +52,36 @@ export default function ViewpPost() {
         >
           <p>{postDetails?.color} is the color selection in hex value for this post.</p>
         </div>
-        <Link href={`post/edit/${postDetails.postId}`} passHref>
+        <Link href={`edit/${postDetails.postId}`} passHref>
           <Button variant="info">EDIT</Button>
         </Link>
         <hr />
+      </div>
+      <div
+        className="text-center d-flex flex-column justify-content-center align-content-center"
+        style={{
+          height: '90vh',
+          padding: '30px',
+          maxWidth: '666px',
+          margin: '0 auto',
+        }}
+      >
+        <div
+          className="d-flex flex-wrap"
+          style={{
+            overflowY: 'scroll',
+          }}
+        >
+          {/* <Link href="/new" passHref>
+        <Button>Add A Post</Button>
+      </Link> */}
+          <h2>{ghostPosts ? 'ghostPosts loaded' : 'No ghostPosts'}</h2>
+          <h3>{}</h3>
+          {/* TODO: map over post  */}
+          {ghostPosts.map((post) => (
+            <PostCard key={post.postId} postObj={{ ...post }} onUpdate={getAllTheGhostPosts} />
+          ))}
+        </div>
       </div>
     </div>
   );

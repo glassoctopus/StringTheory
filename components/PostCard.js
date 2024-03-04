@@ -38,7 +38,7 @@ function PostCard({ postObj, onUpdate }) {
           <Button variant="primary" className="m-2">VIEW</Button>
         </Link>
         {/* DYNAMIC LINK TO EDIT THE post DETAILS  */}
-        <Link href={`/edit/${postObj.postId}`} passHref>
+        <Link href={`/post/edit/${postObj.postId}`} passHref>
           <Button variant="info">EDIT</Button>
         </Link>
         <Button variant="danger" onClick={deleteThisPost} className="m-2">

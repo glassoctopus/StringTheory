@@ -30,7 +30,6 @@ const AuthProvider = (props) => {
           .then((userDataArray) => {
             const userData = userDataArray[0];
             // Extract specific properties from userData
-            console.warn('userData', userData); //
             const mergedUser = {
               name: userData.name,
               color: userData.color,
@@ -39,7 +38,6 @@ const AuthProvider = (props) => {
               bio: userData.bio,
               uid: fbUser.uid,
             };
-            console.warn('mergedUser', mergedUser); // \ this is where you merged the authobj and the user data that you thought you needed thomas.
             // Update user state with mergedUser
             setUser(mergedUser);
           })

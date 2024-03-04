@@ -15,6 +15,7 @@ const initialState = {
   color: '',
   timeStamp: '',
   isGhost: false,
+  ghostParentPost: '',
 };
 
 function CreatePost({ onUpdate }) {
@@ -57,6 +58,7 @@ function CreatePost({ onUpdate }) {
           thePostersId: user?.uid || '',
           color: user?.color || '',
           isGhost: false,
+          ghostParentPost: posting?.ghostParentPost || '',
         };
         console.warn('payload', payload);
         createPost(payload).then(({ name }) => {
