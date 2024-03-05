@@ -30,7 +30,7 @@ export default function ViewpPost() {
     if (postDetails.thePostersId) {
       getAllTheGhostPosts();
     }
-  }, [postDetails.thePostersId, getAllTheGhostPosts]);
+  }, [postDetails.thePostersId, getAllTheGhostPosts, ghostPosts]);
 
   return (
     <div className="mt-5 d-flex flex-wrap">
