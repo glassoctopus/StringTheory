@@ -17,7 +17,7 @@ export default function ViewpPost() {
   const getAllTheGhostPosts = useCallback(() => {
     getGhostPosts(postDetails.thePostersId).then((ghostPostsData) => {
       setGhostPosts(ghostPostsData);
-      console.log(ghostPosts);
+      console.warn(ghostPosts);
     });
   }, [postDetails.thePostersId]);
 
