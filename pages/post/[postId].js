@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useRouter } from 'next/router';
 import Button from 'react-bootstrap/Button';
 import Link from 'next/link';
@@ -14,22 +14,24 @@ export default function ViewpPost() {
   // grab postId from url
   const { postId } = router.query;
 
+  const getAllTheGhostPosts = useCallback(() => {
+    getGhostPosts(postDetails.thePostersId).then((ghostPostsData) => {
+      setGhostPosts(ghostPostsData);
+      console.warn(ghostPosts);
+    });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [postDetails.thePostersId]);
+
   // call to API layer to get the data
   useEffect(() => {
-    // console.log(postId);
     getSinglePost(postId).then(setPostDetails);
-    getGhostPosts(postId).then((ghostPostsData) => {
-      setGhostPosts(ghostPostsData);
-    //   console.log(ghostPosts);
-    });
-  }, [postId, ghostPosts]);
+  }, [postId]);
 
-  const getAllTheGhostPosts = () => {
-    getGhostPosts(postId).then(() => {
-      setGhostPosts(ghostPosts);
-    //   console.log(ghostPosts);
-    });
-  };
+  useEffect(() => {
+    if (postDetails.thePostersId) {
+      getAllTheGhostPosts();
+    }
+  }, [postDetails.thePostersId, getAllTheGhostPosts]);
 
   return (
     <div className="mt-5 d-flex flex-wrap">

@@ -31,6 +31,11 @@ function PostCard({ postObj, onUpdate }) {
       </div>
       <div className="card-content">
         <p className="card-text bold">{postObj.postBody}</p>
+        <p className="card-text">Hex color of post should be {postObj.color}</p>
+        <div
+          style={{ background: `#${postObj.color}` }}
+        >***
+        </div>
       </div>
       <div className="card-footer">
         {/* DYNAMIC LINK TO VIEW THE post DETAILS  */}

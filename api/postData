@@ -15,8 +15,8 @@ const getPosts = (thePostersId) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
-const getGhostPosts = (ghostParentPostId) => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/connectionPosts.json?orderBy="ghostParentPost"&equalTo="${ghostParentPostId}"`, {
+const getGhostPosts = (uid) => new Promise((resolve, reject) => {
+  fetch(`${endpoint}/connectionPosts.json?orderBy="thePostersId"&equalTo="${uid}"`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',

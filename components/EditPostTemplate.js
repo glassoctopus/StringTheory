@@ -90,7 +90,7 @@ const EditPostTemplate = ({ onUpdate }) => {
           postersName: user?.name || '',
           timeStamp,
           thePostersId: user?.uid || '',
-          color: user?.color || '',
+          color: posting.color || '',
           isGhost: false,
           ghostParentPost: posting?.post || '',
         };
@@ -102,7 +102,9 @@ const EditPostTemplate = ({ onUpdate }) => {
           // console.log('edited payload id', editedPostId);
           updatePost(patchPayload).then(() => {
             alert('posted');
-            const originalPostPayload = { ...originalPost, ghostParentPost: postIdNew, isGhost: true };
+            const originalPostPayload = {
+              ...originalPost, ghostParentPost: postIdNew, color: editedPayload.color, isGhost: true,
+            };
             // console.log('originalPostPayload', originalPostPayload);
             createPostEdit(originalPostPayload).then(() => {
               alert('original post ghosted and edited');
@@ -121,7 +123,7 @@ const EditPostTemplate = ({ onUpdate }) => {
     <div
       className="card"
       style={{
-        width: '31rem', margin: '10px', border: `7px double #${user.color}`, background: 'transparent', color: `#${user.color}`,
+        width: '31rem', margin: '10px', border: `7px double #${posting.color}`, background: 'transparent', color: `#${posting.color}`,
       }}
     >
       <div className="card-header">
@@ -129,7 +131,7 @@ const EditPostTemplate = ({ onUpdate }) => {
       </div>
       <div>
         <textarea
-          style={{ background: 'transparent', color: `#${user.color}`, width: '100%' }}
+          style={{ background: 'transparent', color: `#${posting.color}`, width: '100%' }}
           type="text"
           name="postBody"
           value={posting.postBody}
@@ -140,7 +142,7 @@ const EditPostTemplate = ({ onUpdate }) => {
       <p>What color do you want this post to be? Enter a Hex color in the box below.</p>
       <div>
         <textarea
-          style={{ background: 'transparent', color: `#${user.color}`, width: '100%' }}
+          style={{ background: 'transparent', color: `#${posting.color}`, width: '100%' }}
           type="text"
           name="color"
           value={posting.color}
