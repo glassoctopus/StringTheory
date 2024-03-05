@@ -90,7 +90,7 @@ const EditPostTemplate = ({ onUpdate }) => {
           postersName: user?.name || '',
           timeStamp,
           thePostersId: user?.uid || '',
-          color: user?.color || '',
+          color: posting.color || '',
           isGhost: false,
           ghostParentPost: posting?.post || '',
         };
@@ -102,7 +102,9 @@ const EditPostTemplate = ({ onUpdate }) => {
           // console.log('edited payload id', editedPostId);
           updatePost(patchPayload).then(() => {
             alert('posted');
-            const originalPostPayload = { ...originalPost, ghostParentPost: postIdNew, isGhost: true };
+            const originalPostPayload = {
+              ...originalPost, ghostParentPost: postIdNew, color: editedPayload.color, isGhost: true,
+            };
             // console.log('originalPostPayload', originalPostPayload);
             createPostEdit(originalPostPayload).then(() => {
               alert('original post ghosted and edited');
