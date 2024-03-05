@@ -19,6 +19,7 @@ export default function ViewpPost() {
       setGhostPosts(ghostPostsData);
       console.warn(ghostPosts);
     });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [postDetails.thePostersId]);
 
   // call to API layer to get the data
@@ -30,7 +31,7 @@ export default function ViewpPost() {
     if (postDetails.thePostersId) {
       getAllTheGhostPosts();
     }
-  }, [postDetails.thePostersId, getAllTheGhostPosts, ghostPosts]);
+  }, [postDetails.thePostersId, getAllTheGhostPosts]);
 
   return (
     <div className="mt-5 d-flex flex-wrap">
