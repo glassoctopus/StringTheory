@@ -10,6 +10,7 @@ import {
 // eslint-disable-next-line import/extensions
 } from '../api/postData';
 
+// eslint-disable-next-line no-unused-vars
 const EditPostTemplate = ({ onUpdate }) => {
   const [posting, setPosting] = useState({
     postId: '',
@@ -64,15 +65,8 @@ const EditPostTemplate = ({ onUpdate }) => {
     if (postId) fetchPost();
   }, [postId]);
 
-  const deleteThisPost = async () => {
-    if (window.confirm(`Delete ${posting.postBody}?`)) {
-      try {
-        await deletePost(posting.postId);
-        onUpdate();
-      } catch (error) {
-        console.error('Error deleting post:', error);
-      }
-    }
+  const doneEditing = () => {
+    router.push('/postSpace');
   };
 
   const editThisPost = () => {
@@ -151,7 +145,7 @@ const EditPostTemplate = ({ onUpdate }) => {
       </div>
       <div className="card-footer">
         <Button variant="primary" onClick={editThisPost} className="m-2">Edit</Button>
-        <Button variant="danger" onClick={deleteThisPost} className="m-2">Forget about it</Button>
+        <Button variant="danger" onClick={doneEditing} className="m-2">Forget about it</Button>
       </div>
     </div>
   );

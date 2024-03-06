@@ -5,6 +5,7 @@ import UserCard from '../components/UserCard';
 
 function Home() {
   const { user } = useAuth();
+  console.warn(user);
 
   return (
     <div
@@ -12,7 +13,7 @@ function Home() {
       style={{
         height: '90vh',
         padding: '30px',
-        maxWidth: '400px',
+        // maxWidth: '400px',
         margin: '0 auto',
       }}
     >
@@ -21,7 +22,10 @@ function Home() {
         <div key={2} className="grid-item">*</div>
         <div key={3} className="grid-item">*</div>
         <div key={4} className="grid-item">*</div>
-        <div key={5} className="grid-item">
+        <div
+          key={5}
+          className="text-center" // justify-content-center align-content-center"
+        >
           <UserCard userObj={user} />
           <Button variant="danger" type="button" size="lg" className="copy-btn" onClick={signOut}>Sign Out</Button>
         </div>

@@ -17,6 +17,7 @@ AuthContext.displayName = 'AuthContext'; // Context object accepts a displayName
 
 const AuthProvider = (props) => {
   const [user, setUser] = useState(null);
+  console.warn('user', user);
 
   // there are 3 states for the user:
   // null = application initial state, not yet loaded
@@ -40,6 +41,7 @@ const AuthProvider = (props) => {
             };
             // Update user state with mergedUser
             setUser(mergedUser);
+            console.warn('mergedUser', mergedUser);
           })
           .catch((error) => {
             console.error('Error fetching user data:', error);
@@ -48,7 +50,7 @@ const AuthProvider = (props) => {
         setUser(false);
       }
     }); // creates a single global listener for auth state changed
-  }, []);
+  }, [setUser]);
 
   const value = useMemo( // https://reactjs.org/docs/hooks-reference.html#usememo
     () => ({
