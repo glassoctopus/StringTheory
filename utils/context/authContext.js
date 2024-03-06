@@ -32,11 +32,11 @@ const AuthProvider = (props) => {
             const userData = userDataArray[0];
             // Extract specific properties from userData
             const mergedUser = {
-              name: userData.name,
-              color: userData.color,
-              born: userData.born,
-              userId: userData.userId,
-              bio: userData.bio,
+              name: userData?.name,
+              color: userData?.color,
+              born: userData?.born,
+              userId: userData?.userId,
+              bio: userData?.bio,
               uid: fbUser.uid,
             };
             // Update user state with mergedUser
