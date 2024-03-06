@@ -40,6 +40,7 @@ const AuthProvider = (props) => {
             };
             // Update user state with mergedUser
             setUser(mergedUser);
+            console.warn('mergedUser', mergedUser);
           })
           .catch((error) => {
             console.error('Error fetching user data:', error);
@@ -48,7 +49,7 @@ const AuthProvider = (props) => {
         setUser(false);
       }
     }); // creates a single global listener for auth state changed
-  }, []);
+  }, [setUser]);
 
   const value = useMemo( // https://reactjs.org/docs/hooks-reference.html#usememo
     () => ({
