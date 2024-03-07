@@ -19,7 +19,7 @@ const getPosts = (thePostersId) => new Promise((resolve, reject) => {
 });
 
 const getGhostPosts = (uid) => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/connectionPosts.json?orderBy="thePostersId"&equalTo="${uid}"`, {
+  fetch(`${endpoint}/ghostPosts.json?orderBy="thePostersId"&equalTo="${uid}"`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -68,7 +68,7 @@ const createPost = (payload) => new Promise((resolve, reject) => {
 });
 
 const createGhostPost = (payload) => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/connectionPosts.json`, {
+  fetch(`${endpoint}/ghostPosts.json`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -93,9 +93,9 @@ const updatePost = (payload) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
-// Function to update a ghost post in connectionPosts endpoint
+// Function to update a ghost post in ghostPosts endpoint
 const updateGhostPost = (postId, data) => new Promise((resolve, reject) => {
-  const ghostPostRef = firebase.database().ref(`/connectionPosts/${postId}`);
+  const ghostPostRef = firebase.database().ref(`/ghostPosts/${postId}`);
   ghostPostRef.update(data)
     .then(() => resolve())
     .catch((error) => reject(error));
