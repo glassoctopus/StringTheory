@@ -1,4 +1,7 @@
+import firebase from 'firebase/app';
 import { clientCredentials } from '../utils/client';
+import 'firebase/database';
+
 // API CALLS FOR Posts
 
 const endpoint = clientCredentials.databaseURL;
@@ -64,7 +67,7 @@ const createPost = (payload) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
-const createPostEdit = (payload) => new Promise((resolve, reject) => {
+const createGhostPost = (payload) => new Promise((resolve, reject) => {
   fetch(`${endpoint}/connectionPosts.json`, {
     method: 'POST',
     headers: {
@@ -90,24 +93,19 @@ const updatePost = (payload) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
-const updateGhostPost = (payload) => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/connectionPosts/${payload.postId}.json`, {
-    method: 'PATCH',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(payload),
-  })
-    .then((response) => response.json())
-    .then((data) => resolve(data))
-    .catch(reject);
+// Function to update a ghost post in connectionPosts endpoint
+const updateGhostPost = (postId, data) => new Promise((resolve, reject) => {
+  const ghostPostRef = firebase.database().ref(`/connectionPosts/${postId}`);
+  ghostPostRef.update(data)
+    .then(() => resolve())
+    .catch((error) => reject(error));
 });
 
 export {
   getPosts,
   getGhostPosts,
   createPost,
-  createPostEdit,
+  createGhostPost,
   deletePost,
   getSinglePost,
   updatePost,

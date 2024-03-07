@@ -60,7 +60,6 @@ function CreatePost({ onUpdate }) {
           isGhost: false,
           ghostParentPost: posting?.ghostParentPost || '',
         };
-        console.warn('payload', payload);
         createPost(payload).then(({ name }) => {
           const patchPayload = { ...payload, postId: name };
           updatePost(patchPayload).then(() => {
