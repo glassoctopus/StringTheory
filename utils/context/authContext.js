@@ -13,7 +13,7 @@ import { getSingleUserByFBuid } from '../../api/userData';
 
 const AuthContext = createContext();
 
-AuthContext.displayName = 'AuthContext'; // Context object accepts a displayName string property. React DevTools uses this string to determine what to display for the context. https://reactjs.org/docs/context.html#contextdisplayname
+AuthContext.displayName = 'AuthContext';
 
 const AuthProvider = (props) => {
   const [user, setUser] = useState(null);
@@ -31,11 +31,11 @@ const AuthProvider = (props) => {
             const userData = userDataArray[0];
             // Extract specific properties from userData
             const mergedUser = {
-              name: userData.name,
-              color: userData.color,
-              born: userData.born,
-              userId: userData.userId,
-              bio: userData.bio,
+              name: userData?.name,
+              color: userData?.color,
+              born: userData?.born,
+              userId: userData?.userId,
+              bio: userData?.bio,
               uid: fbUser.uid,
             };
             // Update user state with mergedUser

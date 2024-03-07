@@ -1,7 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Button from 'react-bootstrap/Button';
-import Link from 'next/link';
 
 function PostCard({ postObj }) {
   return (
@@ -30,13 +28,7 @@ function PostCard({ postObj }) {
       </div>
       <div className="card-footer">
         {/* DYNAMIC LINK TO VIEW THE post DETAILS  */}
-        <Link href={`/post/${postObj.postId}`} passHref>
-          <Button variant="primary" className="m-2">VIEW</Button>
-        </Link>
-        {/* DYNAMIC LINK TO EDIT THE post DETAILS  */}
-        <Link href={`/post/edit/${postObj.postId}`} passHref>
-          <Button variant="info">EDIT</Button>
-        </Link>
+        It&apos;s a ghost post, no edits past this point...
       </div>
     </div>
   );

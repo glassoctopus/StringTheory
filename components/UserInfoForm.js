@@ -37,7 +37,7 @@ function UserForm({ obj }) {
     const timeStamp = rightNow();
     console.warn('at ', timeStamp, 'user was created');
     if (obj.userId) {
-      updateUser(formInput).then(() => router.push(`/users/${obj.userId}`));
+      updateUser(formInput).then(() => router.push(`/user/${obj.userId}`));
     } else {
       const payload = { ...formInput, born: timeStamp, uid: user.uid };
       createUser(payload).then(({ name }) => {

@@ -80,12 +80,15 @@ function CreatePost({ onUpdate }) {
       }}
     >
       <div className="card-header">
-        <div className="card-title">{`${user?.name} is thinking about posting on ${rightNow()}`}</div>
+        <div className="card-title">{`${user?.name} is thinking about posting `}</div>
       </div>
       <div>
         <textarea style={{ background: 'transparent', color: `#${user.color}`, width: '100%' }} type="text" name="postBody" value={posting.postBody} onChange={handleChange} />
       </div>
       your post is at {charCount} chars of 666
+      <div className="card-header">
+        <div className="card-title">{` on ${rightNow()}`}</div>
+      </div>
       <div className="card-footer">
         <Button variant="primary" onClick={postThisPost} className="m-2">Post</Button>
         <Button variant="danger" onClick={deleteThisPost} className="m-2">Forget about it</Button>

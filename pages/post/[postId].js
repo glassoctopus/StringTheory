@@ -4,7 +4,8 @@ import Button from 'react-bootstrap/Button';
 import Link from 'next/link';
 // eslint-disable-next-line import/extensions
 import { getSinglePost, getGhostPosts } from '../../api/postData';
-import PostCard from '../../components/PostCard';
+// import PostCard from '../../components/PostCard';
+import GhostPostCard from '../../components/GhostPostCard';
 
 export default function ViewpPost() {
   const [postDetails, setPostDetails] = useState({});
@@ -16,11 +17,15 @@ export default function ViewpPost() {
 
   const getAllTheGhostPosts = useCallback(() => {
     getGhostPosts(postDetails.thePostersId).then((ghostPostsData) => {
+      // find the first in the chain of ghost posts
+      const currentGhostPost = ghostPostsData.find((postObject) => postObject.ghostParentPost === postDetails.postId);
+      console.warn('the postID', postDetails.postId);
+      console.warn('currentGhostPost', currentGhostPost);
+      console.warn('ghostPost', ghostPostsData);
       setGhostPosts(ghostPostsData);
-      console.warn(ghostPosts);
     });
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [postDetails.thePostersId]);
+  }, [postDetails?.thePostersId]);
 
   // call to API layer to get the data
   useEffect(() => {
@@ -31,7 +36,7 @@ export default function ViewpPost() {
     if (postDetails.thePostersId) {
       getAllTheGhostPosts();
     }
-  }, [postDetails.thePostersId, getAllTheGhostPosts]);
+  }, [postDetails?.thePostersId, getAllTheGhostPosts]);
 
   return (
     <div className="mt-5 d-flex flex-wrap">
@@ -54,7 +59,7 @@ export default function ViewpPost() {
         >
           <p>{postDetails?.color} is the color selection in hex value for this post.</p>
         </div>
-        <Link href={`edit/${postDetails.postId}`} passHref>
+        <Link href={`edit/${postDetails?.postId}`} passHref>
           <Button variant="info">EDIT</Button>
         </Link>
         <hr />
@@ -81,7 +86,7 @@ export default function ViewpPost() {
           <h3>{}</h3>
           {/* TODO: map over post  */}
           {ghostPosts.map((post) => (
-            <PostCard key={post.postId} postObj={{ ...post }} onUpdate={getAllTheGhostPosts} />
+            <GhostPostCard key={post.postId} postObj={{ ...post }} onUpdate={getAllTheGhostPosts} />
           ))}
         </div>
       </div>

@@ -51,8 +51,10 @@ a{
 
 .card {
   background-color: transparent;
-  padding: 20px;
-  border: 7px double #ccc;
+  /* padding: 20px; */
+  margin: 0 auto;
+  color: #8b8a8a;
+  border: 7px double #8b8a8a;
   border-style: double;
   border-radius: 5px;
   box-shadow: 2px 2px 6px rgba(0,0,0,0.1);

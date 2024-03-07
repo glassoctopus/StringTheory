@@ -6,10 +6,11 @@ import rightNow from '../utils/aTimeStamp';
 import { useAuth } from '../utils/context/authContext';
 import {
   // eslint-disable-next-line no-unused-vars
-  createPost, deletePost, getSinglePost, updatePost, createPostEdit,
+  createPost, deletePost, getSinglePost, updatePost, createPostEdit, updateGhostPost,
 // eslint-disable-next-line import/extensions
 } from '../api/postData';
 
+// eslint-disable-next-line no-unused-vars
 const EditPostTemplate = ({ onUpdate }) => {
   const [posting, setPosting] = useState({
     postId: '',
@@ -26,8 +27,7 @@ const EditPostTemplate = ({ onUpdate }) => {
   const router = useRouter();
   const { postId } = router.query;
   const { user } = useAuth();
-  // console.log('posting', posting);
-  // console.log('originalPost', originalPost);
+  // console.warn('originalPost', originalPost);
   let postIdNew = '';
 
   const handleChange = (e, fieldName) => {
@@ -64,15 +64,8 @@ const EditPostTemplate = ({ onUpdate }) => {
     if (postId) fetchPost();
   }, [postId]);
 
-  const deleteThisPost = async () => {
-    if (window.confirm(`Delete ${posting.postBody}?`)) {
-      try {
-        await deletePost(posting.postId);
-        onUpdate();
-      } catch (error) {
-        console.error('Error deleting post:', error);
-      }
-    }
+  const doneEditing = () => {
+    router.push('/postSpace');
   };
 
   const editThisPost = () => {
@@ -103,12 +96,15 @@ const EditPostTemplate = ({ onUpdate }) => {
           updatePost(patchPayload).then(() => {
             alert('posted');
             const originalPostPayload = {
-              ...originalPost, ghostParentPost: postIdNew, color: editedPayload.color, isGhost: true,
+              ...originalPost, ghostParentPost: postIdNew, isGhost: true,
             };
             // console.log('originalPostPayload', originalPostPayload);
-            createPostEdit(originalPostPayload).then(() => {
-              alert('original post ghosted and edited');
-              router.push('/postSpace');
+            createPostEdit(originalPostPayload).then(({ editedName }) => {
+              const ghostPatchPayload = { ...originalPostPayload, color: originalPost.color, postId: editedName };
+              updateGhostPost(ghostPatchPayload).then(() => {
+                alert('original post ghosted and edited');
+                router.push('/postSpace');
+              });
             });
             deletePost(originalPost.postId).then(() => {
               alert(`original post deleted, ID: ${originalPost.postId}`);
@@ -151,7 +147,7 @@ const EditPostTemplate = ({ onUpdate }) => {
       </div>
       <div className="card-footer">
         <Button variant="primary" onClick={editThisPost} className="m-2">Edit</Button>
-        <Button variant="danger" onClick={deleteThisPost} className="m-2">Forget about it</Button>
+        <Button variant="danger" onClick={doneEditing} className="m-2">Forget about it</Button>
       </div>
     </div>
   );
