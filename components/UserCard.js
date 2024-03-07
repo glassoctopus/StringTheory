@@ -9,13 +9,22 @@ import { deleteUser, createDeletedUser } from '../api/userData';
 function UserCard({ userObj, onUpdate }) {
   // FOR DELETE, WE NEED TO REMOVE THE user AND HAVE THE VIEW RERENDER,
   const deleteThisUser = () => {
+    console.warn('Deleting user...');
     if (window.confirm(`Delete ${userObj.userId}?`)) {
-      createDeletedUser(userObj).then(() => onUpdate());
-      deleteUser(userObj.userId).then(() => onUpdate());
+      createDeletedUser(userObj)
+        .then(() => {
+          console.warn('Deleted user created successfully.');
+          return deleteUser(userObj.userId);
+        })
+        .then(() => {
+          console.warn('User deleted successfully.');
+          onUpdate(); // Check if onUpdate is properly defined and passed
+        })
+        .catch((error) => {
+          console.error('Error deleting user:', error);
+        });
     }
   };
-
-  console.warn(userObj);
 
   return (
     <div
@@ -30,7 +39,7 @@ function UserCard({ userObj, onUpdate }) {
     >
       <div className="card-header">
         <div className="card-title">
-          {userObj?.name ? `${userObj?.name}, you're logged in to StringTheory, & it's ${rightNow()}` : 'Welcome to String Theory, you should make a user profile!!!'}
+          {userObj?.name ? `${userObj?.name}, you're warnged in to StringTheory, & it's ${rightNow()}` : 'Welcome to String Theory, you should make a user profile!!!'}
         </div>
       </div>
       <div className="card-footer">

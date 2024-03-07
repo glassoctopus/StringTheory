@@ -5,7 +5,6 @@ import UserCard from '../components/UserCard';
 
 function Home() {
   const { user } = useAuth();
-  console.warn(user);
 
   return (
     <div
