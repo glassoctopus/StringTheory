@@ -18,10 +18,6 @@ export default function ViewpPost() {
   const getAllTheGhostPosts = useCallback(() => {
     getGhostPosts(postDetails.thePostersId).then((ghostPostsData) => {
       // find the first in the chain of ghost posts
-      const currentGhostPost = ghostPostsData.find((postObject) => postObject.ghostParentPost === postDetails.postId);
-      console.warn('the postID', postDetails.postId);
-      console.warn('currentGhostPost', currentGhostPost);
-      console.warn('ghostPost', ghostPostsData);
       setGhostPosts(ghostPostsData);
     });
   // eslint-disable-next-line react-hooks/exhaustive-deps

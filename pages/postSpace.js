@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useAuth } from '../utils/context/authContext';
 // eslint-disable-next-line import/extensions
 import { getPosts, getGhostPosts } from '../api/postData';
@@ -14,17 +14,17 @@ function PostSpace() {
   // user ID using useAuth Hook
   const { user } = useAuth();
 
-  const getAllThePosts = () => {
+  const getAllThePosts = useCallback(() => {
     getPosts(user.uid).then((PostsData) => {
       setPosts(PostsData);
     });
-  };
+  }, [user.uid]);
 
-  const getAllTheGhostPosts = () => {
+  const getAllTheGhostPosts = useCallback(() => {
     getGhostPosts(user.uid, true).then((GhostPostsData) => {
       setGhostPosts(GhostPostsData);
     });
-  };
+  }, [user.uid]);
 
   // make the call to the API to get all the Posts on component render
   useEffect(() => {
@@ -42,7 +42,7 @@ function PostSpace() {
       newParentPost = ghostPostsArray[postIdIndex];
       postTempStorage = ghostPostsArray.splice(postIdIndex);
       chainOfPosts.push(...postTempStorage);
-      console.warn('newParentPost', newParentPost, 'ghostPostsArray length', ghostPostsArray.length, 'chainOfPosts', chainOfPosts);
+      // console.warn('newParentPost', newParentPost, 'ghostPostsArray length', ghostPostsArray.length, 'chainOfPosts', chainOfPosts);
       return getGhostsOfParent(newParentPost, ghostPostsArray);
     }
     return chainOfPosts;
