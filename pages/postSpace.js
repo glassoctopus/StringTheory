@@ -30,7 +30,7 @@ function PostSpace() {
   useEffect(() => {
     getAllThePosts();
     getAllTheGhostPosts();
-  }, []);
+  }, [getAllThePosts, getAllTheGhostPosts]);
 
   const getGhostsOfParent = (parentPost, ghostPostsArray) => {
     const currentParentPostId = parentPost.postId;
