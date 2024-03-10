@@ -8,7 +8,6 @@ export default function EditPost() {
   const [post, setPost] = useState({});
   const router = useRouter();
   const { postId } = router.query;
-  console.warn('postId', postId);
 
   // TODO: make a call to the API to get the Post data
   useEffect(() => {

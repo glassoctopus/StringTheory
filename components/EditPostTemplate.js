@@ -8,7 +8,7 @@ import 'firebase/database';
 import { useAuth } from '../utils/context/authContext';
 import {
   // eslint-disable-next-line no-unused-vars
-  createPost, deletePost, getSinglePost, updatePost, createGhostPost, updateGhostPost,
+  createPost, deletePost, getSinglePost, updatePost, updateGhostPost,
 // eslint-disable-next-line import/extensions
 } from '../api/postData';
 
@@ -78,7 +78,6 @@ const EditPostTemplate = ({ onUpdate }) => {
     if (window.confirm(`Post ${posting.postBody}?`)) {
       if (window.confirm('Are you sure you want this on the internet forever...ish?')) {
         alert('posting');
-        console.warn('originalPost ID', originalPost.postId);
         const timeStamp = rightNow();
         const editedPayload = {
           postBody: posting.postBody,
@@ -89,15 +88,11 @@ const EditPostTemplate = ({ onUpdate }) => {
           isGhost: false,
           ghostParentPost: posting?.post || '',
         };
-        console.warn('editedPayload', editedPayload);
         createPost(editedPayload).then(({ name }) => {
           const patchPayload = { ...editedPayload, postId: name };
           const editedPostId = name;
           postIdNew = editedPostId;
-          console.warn('new parent post creadted from editedPayload, edited payload id', editedPostId);
-          console.warn('patchPayload of edited payload, but with the name / key replaced correctly ', patchPayload);
           updatePost(patchPayload).then(() => {
-            alert('posted');
             const originalPostPayload = {
               ...originalPost,
               ghostParentPost: postIdNew,
@@ -105,15 +100,11 @@ const EditPostTemplate = ({ onUpdate }) => {
               color: originalPost.color,
               postId: originalPost.postId,
             };
-            console.warn('originalPostPayload', originalPostPayload);
             // Create ghost post with the same key as the original post
             updateGhostPost(originalPost.postId, originalPostPayload)
               .then(() => {
-                alert('original post ghosted');
-
                 // Delete the original post
                 deletePost(originalPost.postId).then(() => {
-                  alert(`original post deleted, ID: ${originalPost.postId}`);
                   router.push('/postSpace');
                 });
               });
