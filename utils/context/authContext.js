@@ -40,7 +40,7 @@ const AuthProvider = (props) => {
             };
             // Update user state with mergedUser
             setUser(mergedUser);
-            console.warn('mergedUser', mergedUser);
+            // console.warn('mergedUser', mergedUser);
           })
           .catch((error) => {
             console.error('Error fetching user data:', error);
