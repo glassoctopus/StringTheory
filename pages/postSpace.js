@@ -1,15 +1,17 @@
 import React, { useEffect, useState, useCallback } from 'react';
+import Link from 'next/link';
+import { Button } from 'react-bootstrap';
 import { useAuth } from '../utils/context/authContext';
 // eslint-disable-next-line import/extensions
 import { getPosts, getGhostPosts } from '../api/postData';
 import PostCard from '../components/PostCard';
 import GhostPostCard from '../components/GhostPostCard';
+import getGhostsOfParent from '../utils/doWhat';
 
 function PostSpace() {
   const [posts, setPosts] = useState([]);
   const [ghostPosts, setGhostPosts] = useState([]);
-
-  const chainOfPosts = [];
+  let chainOfPosts = [];
 
   // user ID using useAuth Hook
   const { user } = useAuth();
@@ -32,22 +34,6 @@ function PostSpace() {
     getAllTheGhostPosts();
   }, [getAllThePosts, getAllTheGhostPosts]);
 
-  const getGhostsOfParent = (parentPost, ghostPostsArray) => {
-    const currentParentPostId = parentPost.postId;
-    let postIdIndex = '';
-    let postTempStorage = [];
-    let newParentPost = {};
-    if (ghostPostsArray.find((object) => Object.values(object).includes(currentParentPostId))) {
-      postIdIndex = ghostPostsArray.findIndex((object) => Object.values(object).includes(currentParentPostId));
-      newParentPost = ghostPostsArray[postIdIndex];
-      postTempStorage = ghostPostsArray.splice(postIdIndex);
-      chainOfPosts.push(...postTempStorage);
-      // console.warn('newParentPost', newParentPost, 'ghostPostsArray length', ghostPostsArray.length, 'chainOfPosts', chainOfPosts);
-      return getGhostsOfParent(newParentPost, ghostPostsArray);
-    }
-    return chainOfPosts;
-  };
-
   return (
     <div
       className="text-center d-flex flex-column justify-content-center align-content-center"
@@ -64,16 +50,16 @@ function PostSpace() {
           overflowY: 'scroll',
         }}
       >
-        {/* <Link href="/new" passHref>
-        <Button>Add A Post</Button>
-      </Link> */}
+        <Link href="/createPost" passHref>
+          <Button>Add A Post</Button>
+        </Link>
         <h2>{posts ? 'Posts loaded' : 'No Posts'}</h2>
         <h3>{}</h3>
         {/* map over post, but only show one, STILL working on */}
         {posts.map((post) => {
           if (ghostPosts.find((object) => Object.values(object).includes(post.postId))) {
-            chainOfPosts.push(post);
-            getGhostsOfParent(post, ghostPosts);
+            chainOfPosts = getGhostsOfParent(post, ghostPosts);
+            console.warn('Chain of Posts', chainOfPosts);
           }
           return (
             <PostCard key={post.postId} postObj={{ ...post }} onUpdate={getAllThePosts} />
@@ -84,18 +70,24 @@ function PostSpace() {
         <div
           className="d-flex flex-nowrap"
           style={{
-            display: 'flex', flexWrap: 'nowrap', overflowX: 'auto', maxHeight: '70vh', // Limit the height to allow vertical scrolling
+            display: 'flex',
+            flexWrap: 'nowrap',
+            overflowX: 'auto',
+            maxHeight: '70vh',
           }}
         >
-          {ghostPosts.map((ghostPost) => (
-            <div key={ghostPost.postId} style={{ marginRight: '10px' }}>
-              <GhostPostCard postObj={{ ...ghostPost }} onUpdate={getAllTheGhostPosts} />
-            </div>
-          ))}
+          {/* map over chainOfPosts */}
+          {chainOfPosts.map((ghostPost) => {
+            console.warn('Chain of Posts', chainOfPosts);
+            return (
+              <div key={ghostPost.postId} style={{ marginRight: '10px' }}>
+                <GhostPostCard postObj={{ ...ghostPost }} onUpdate={getAllTheGhostPosts} />
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>
   );
 }
-
 export default PostSpace;
