@@ -31,6 +31,9 @@ export default function NavBar() {
             <Link passHref href="/postSpace">
               <Nav.Link>MyPosts</Nav.Link>
             </Link>
+            <Link passHref href="/postSpaceWeb">
+              <Nav.Link>AllPosts</Nav.Link>
+            </Link>
             <Button variant="danger" onClick={signOut}>Sign Out</Button>
           </Nav>
         </Navbar.Collapse>

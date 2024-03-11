@@ -49,7 +49,6 @@ function CreatePost({ onUpdate }) {
     }
     if (window.confirm(`Post ${posting.postBody}?`)) {
       if (window.confirm('Are you sure you want this on the internet forever...ish?')) {
-        alert('posting');
         const timeStamp = rightNow();
         const payload = {
           postBody: posting.postBody,
@@ -63,7 +62,6 @@ function CreatePost({ onUpdate }) {
         createPost(payload).then(({ name }) => {
           const patchPayload = { ...payload, postId: name };
           updatePost(patchPayload).then(() => {
-            alert('posted');
             router.push('/postSpace');
           });
         });
