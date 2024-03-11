@@ -39,7 +39,7 @@ function UserCard({ userObj, onUpdate }) {
     >
       <div className="card-header">
         <div className="card-title">
-          {userObj?.name ? `${userObj?.name}, you're warnged in to StringTheory, & it's ${rightNow()}` : 'Welcome to String Theory, you should make a user profile!!!'}
+          {userObj?.name ? `${userObj?.name}, you're logged in to StringTheory, & it's ${rightNow()}` : 'Welcome to String Theory, you should make a user profile!!!'}
         </div>
       </div>
       <div className="card-footer">

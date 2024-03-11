@@ -30,6 +30,30 @@ const getGhostPosts = (uid) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
+const getAllPosts = () => new Promise((resolve, reject) => {
+  fetch(`${endpoint}/posts.json`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+    .then((response) => response.json())
+    .then((data) => resolve(Object.values(data)))
+    .catch(reject);
+});
+
+const getAllGhostPosts = () => new Promise((resolve, reject) => {
+  fetch(`${endpoint}/ghostPosts.json`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+    .then((response) => response.json())
+    .then((data) => resolve(Object.values(data)))
+    .catch(reject);
+});
+
 const deletePost = (PostId) => new Promise((resolve, reject) => {
   fetch(`${endpoint}/posts/${PostId}.json`, {
     method: 'DELETE',
@@ -104,6 +128,8 @@ const updateGhostPost = (postId, data) => new Promise((resolve, reject) => {
 export {
   getPosts,
   getGhostPosts,
+  getAllPosts,
+  getAllGhostPosts,
   createPost,
   createGhostPost,
   deletePost,
