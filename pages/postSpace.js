@@ -19,14 +19,12 @@ function PostSpace() {
   const getUsersPosts = useCallback(() => {
     getPosts(user.uid).then((PostsData) => {
       setPosts((prevPosts) => [...prevPosts, ...PostsData]);
-      console.log('posts ', posts, ' of user ', user.uid);
     });
   }, [user.uid]);
 
   const getUsersGhostPosts = useCallback(() => {
     getGhostPosts(user.uid, true).then((GhostPostsData) => {
       setGhostPosts((prevGhostPosts) => [...prevGhostPosts, ...GhostPostsData]);
-      console.log('ghostPosts', ghostPosts, ' of user ', user.uid);
     });
   }, [user.uid]);
 
@@ -36,7 +34,6 @@ function PostSpace() {
     posts.forEach((post) => {
       let chainOfPostsForPost = [];
       const postHasGhosts = ghostPosts.some((ghostPost) => ghostPost.ghostParentPost === post.postId);
-      console.log('postHasGhosts', postHasGhosts);
 
       if (postHasGhosts) {
         chainOfPostsForPost = getGhostsOfParent(post, ghostPosts);

@@ -34,7 +34,6 @@ function PostSpace() {
     posts.forEach((post) => {
       let chainOfPostsForPost = [];
       const postHasGhosts = ghostPosts.some((ghostPost) => ghostPost.ghostParentPost === post.postId);
-      console.log('postHasGhosts', postHasGhosts);
 
       if (postHasGhosts) {
         chainOfPostsForPost = getGhostsOfParent(post, ghostPosts);
