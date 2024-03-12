@@ -2,8 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Button from 'react-bootstrap/Button';
 import Link from 'next/link';
+import { useAuth } from '../utils/context/authContext';
 
 function PostCard({ postObj }) {
+  const { user } = useAuth();
+  const isViewerAuthUser = user && user.uid === postObj.thePostersId;
+
   return (
     <div
       className="card"
@@ -34,9 +38,11 @@ function PostCard({ postObj }) {
           <Button variant="primary" className="m-2">VIEW</Button>
         </Link>
         {/* DYNAMIC LINK TO EDIT THE post DETAILS  */}
+        {isViewerAuthUser && (
         <Link href={`/post/edit/${postObj.postId}`} passHref>
           <Button variant="info">EDIT</Button>
         </Link>
+        )}
       </div>
     </div>
   );

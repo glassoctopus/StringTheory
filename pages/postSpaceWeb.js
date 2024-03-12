@@ -33,7 +33,9 @@ function PostSpace() {
 
     posts.forEach((post) => {
       let chainOfPostsForPost = [];
-      if (ghostPosts.find((object) => Object.values(object).includes(post.postId))) {
+      const postHasGhosts = ghostPosts.some((ghostPost) => ghostPost.ghostParentPost === post.postId);
+
+      if (postHasGhosts) {
         chainOfPostsForPost = getGhostsOfParent(post, ghostPosts);
       } else {
         chainOfPostsForPost.push(post);
@@ -51,7 +53,7 @@ function PostSpace() {
   }, [getAllThePosts, getAllTheGhostPosts]);
 
   useEffect(() => {
-    if (posts.length > 0 && ghostPosts.length > 0) {
+    if (posts.length > 0 || ghostPosts.length > 0) {
       allchainsOfAllPosts();
     }
   }, [posts, ghostPosts, allchainsOfAllPosts]);

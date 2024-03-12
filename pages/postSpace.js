@@ -16,13 +16,13 @@ function PostSpace() {
   // user ID using useAuth Hook
   const { user } = useAuth();
 
-  const getAllThePosts = useCallback(() => {
+  const getUsersPosts = useCallback(() => {
     getPosts(user.uid).then((PostsData) => {
       setPosts((prevPosts) => [...prevPosts, ...PostsData]);
     });
   }, [user.uid]);
 
-  const getAllTheGhostPosts = useCallback(() => {
+  const getUsersGhostPosts = useCallback(() => {
     getGhostPosts(user.uid, true).then((GhostPostsData) => {
       setGhostPosts((prevGhostPosts) => [...prevGhostPosts, ...GhostPostsData]);
     });
@@ -33,7 +33,9 @@ function PostSpace() {
 
     posts.forEach((post) => {
       let chainOfPostsForPost = [];
-      if (ghostPosts.find((object) => Object.values(object).includes(post.postId))) {
+      const postHasGhosts = ghostPosts.some((ghostPost) => ghostPost.ghostParentPost === post.postId);
+
+      if (postHasGhosts) {
         chainOfPostsForPost = getGhostsOfParent(post, ghostPosts);
       } else {
         chainOfPostsForPost.push(post);
@@ -46,12 +48,12 @@ function PostSpace() {
 
   // make the call to the API to get all the Posts on component render
   useEffect(() => {
-    getAllThePosts();
-    getAllTheGhostPosts();
-  }, [getAllThePosts, getAllTheGhostPosts]);
+    getUsersPosts();
+    getUsersGhostPosts();
+  }, [getUsersPosts, getUsersGhostPosts]);
 
   useEffect(() => {
-    if (posts.length > 0 && ghostPosts.length > 0) {
+    if (posts.length > 0 || ghostPosts.length > 0) {
       allchainsOfAllPosts();
     }
   }, [posts, ghostPosts, allchainsOfAllPosts]);
@@ -93,9 +95,9 @@ function PostSpace() {
               {chainOfPosts.map((post) => (
                 <div key={post.postId} style={{ marginRight: '10px' }}>
                   {post.isGhost ? (
-                    <GhostPostCard postObj={{ ...post }} onUpdate={getAllTheGhostPosts} />
+                    <GhostPostCard postObj={{ ...post }} onUpdate={getUsersGhostPosts} />
                   ) : (
-                    <PostCard postObj={{ ...post }} onUpdate={getAllThePosts} />
+                    <PostCard postObj={{ ...post }} onUpdate={getUsersPosts} />
                   )}
                 </div>
               ))}
