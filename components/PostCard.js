@@ -31,6 +31,7 @@ function PostCard({ postObj }) {
           style={{ background: `#${postObj.color}` }}
         >***
         </div>
+        <p>{postObj.postId}</p>
       </div>
       <div className="card-footer">
         {/* DYNAMIC LINK TO VIEW THE post DETAILS  */}
@@ -38,10 +39,14 @@ function PostCard({ postObj }) {
           <Button variant="primary" className="m-2">VIEW</Button>
         </Link>
         {/* DYNAMIC LINK TO EDIT THE post DETAILS  */}
-        {isViewerAuthUser && (
-        <Link href={`/post/edit/${postObj.postId}`} passHref>
-          <Button variant="info">EDIT</Button>
-        </Link>
+        {isViewerAuthUser ? (
+          <Link href={`/post/edit/${postObj.postId}`} passHref>
+            <Button variant="info">EDIT</Button>
+          </Link>
+        ) : (
+          <Link href={`/post/connection/${postObj.postId}`} passHref>
+            <Button variant="info">String off this post</Button>
+          </Link>
         )}
       </div>
     </div>
