@@ -3,10 +3,10 @@ import Link from 'next/link';
 import { Button } from 'react-bootstrap';
 import { useAuth } from '../utils/context/authContext';
 // eslint-disable-next-line import/extensions
-import { getAllPosts, getAllGhostPosts } from '../api/postData';
+import { getAllPosts } from '../api/postData';
 import PostCard from '../components/PostCard';
 import GhostPostCard from '../components/GhostPostCard';
-import getGhostsOfParent from '../utils/doWhat';
+import { getGhostsOfParent, onlyPosts, onlyGhostPosts } from '../utils/doWhat';
 
 function PostSpace() {
   const [posts, setPosts] = useState([]);
@@ -16,15 +16,17 @@ function PostSpace() {
   // user ID using useAuth Hook
   const { user } = useAuth();
 
-  const getAllThePosts = useCallback(() => {
-    getAllPosts(user.uid).then((PostsData) => {
-      setPosts((prevPosts) => [...prevPosts, ...PostsData]);
+  const getEveryPost = useCallback(() => {
+    getAllPosts().then((PostsData) => {
+      const sorted = onlyPosts(PostsData ?? []);
+      setPosts((prevPosts) => [...prevPosts, ...sorted]);
     });
   }, [user.uid]);
 
-  const getAllTheGhostPosts = useCallback(() => {
-    getAllGhostPosts(user.uid, true).then((GhostPostsData) => {
-      setGhostPosts((prevGhostPosts) => [...prevGhostPosts, ...GhostPostsData]);
+  const getAllGhostPosts = useCallback(() => {
+    getAllPosts().then((GhostPostsData) => {
+      const sortedGhosts = onlyGhostPosts(GhostPostsData ?? []);
+      setGhostPosts((prevGhostPosts) => [...prevGhostPosts, ...sortedGhosts]);
     });
   }, [user.uid]);
 
@@ -48,9 +50,9 @@ function PostSpace() {
 
   // make the call to the API to get all the Posts on component render
   useEffect(() => {
-    getAllThePosts();
-    getAllTheGhostPosts();
-  }, [getAllThePosts, getAllTheGhostPosts]);
+    getEveryPost();
+    getAllGhostPosts();
+  }, [getEveryPost, getAllGhostPosts]);
 
   useEffect(() => {
     if (posts.length > 0 || ghostPosts.length > 0) {
@@ -95,9 +97,9 @@ function PostSpace() {
               {chainOfPosts.map((post) => (
                 <div key={post.postId} style={{ marginRight: '10px' }}>
                   {post.isGhost ? (
-                    <GhostPostCard postObj={{ ...post }} onUpdate={getAllTheGhostPosts} />
+                    <GhostPostCard postObj={{ ...post }} onUpdate={getAllGhostPosts} />
                   ) : (
-                    <PostCard postObj={{ ...post }} onUpdate={getAllThePosts} />
+                    <PostCard postObj={{ ...post }} onUpdate={getEveryPost} />
                   )}
                 </div>
               ))}
