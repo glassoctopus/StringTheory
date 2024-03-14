@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import Link from 'next/link';
 import { Button } from 'react-bootstrap';
-import { useAuth } from '../utils/context/authContext';
+// import { useAuth } from '../utils/context/authContext';
 // eslint-disable-next-line import/extensions
 import { getAllPosts } from '../api/postData';
 import PostCard from '../components/PostCard';
@@ -14,21 +14,21 @@ function PostSpace() {
   const [allPostsAndChains, setAllPostsAndChains] = useState([]);
 
   // user ID using useAuth Hook
-  const { user } = useAuth();
+  // const { user } = useAuth();
 
   const getEveryPost = useCallback(() => {
     getAllPosts().then((PostsData) => {
       const sorted = onlyPosts(PostsData ?? []);
       setPosts((prevPosts) => [...prevPosts, ...sorted]);
     });
-  }, [user.uid]);
+  }, []);
 
   const getAllGhostPosts = useCallback(() => {
     getAllPosts().then((GhostPostsData) => {
       const sortedGhosts = onlyGhostPosts(GhostPostsData ?? []);
       setGhostPosts((prevGhostPosts) => [...prevGhostPosts, ...sortedGhosts]);
     });
-  }, [user.uid]);
+  }, []);
 
   const allchainsOfAllPosts = useCallback(() => {
     const updatedallPostsAndChains = [];
