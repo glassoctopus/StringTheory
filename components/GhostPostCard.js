@@ -28,7 +28,7 @@ function PostCard({ postObj }) {
       </div>
       <div className="card-footer">
         {/* DYNAMIC LINK TO VIEW THE post DETAILS  */}
-        It&apos;s a ghost post, no edits past this point...
+        It&apos;s a ghost post of postId ${postObj.ghostParentPost}, no edits past this point...
       </div>
     </div>
   );
@@ -43,6 +43,7 @@ PostCard.propTypes = {
     color: PropTypes.string,
     timeStamp: PropTypes.string,
     isGhost: PropTypes.bool,
+    ghostParentPost: PropTypes.string,
   }).isRequired,
 };
 

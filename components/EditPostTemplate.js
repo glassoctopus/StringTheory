@@ -8,7 +8,7 @@ import 'firebase/database';
 import { useAuth } from '../utils/context/authContext';
 import {
   // eslint-disable-next-line no-unused-vars
-  createPost, deletePost, getSinglePost, updatePost, updateGhostPost,
+  getSinglePost, updatePost, createGhostPost,
 // eslint-disable-next-line import/extensions
 } from '../api/postData';
 
@@ -29,8 +29,6 @@ const EditPostTemplate = ({ onUpdate }) => {
   const router = useRouter();
   const { postId } = router.query;
   const { user } = useAuth();
-  // console.warn('originalPost', originalPost);
-  let postIdNew = '';
 
   const handleChange = (e, fieldName) => {
     const { name, value } = e.target;
@@ -77,7 +75,6 @@ const EditPostTemplate = ({ onUpdate }) => {
     }
     if (window.confirm(`Post ${posting.postBody}?`)) {
       if (window.confirm('Are you sure you want this on the internet forever...ish?')) {
-        alert('posting');
         const timeStamp = rightNow();
         const editedPayload = {
           postBody: posting.postBody,
@@ -87,27 +84,20 @@ const EditPostTemplate = ({ onUpdate }) => {
           color: posting.color || '',
           isGhost: false,
           ghostParentPost: posting?.post || '',
+          postId: posting.postId,
         };
-        createPost(editedPayload).then(({ name }) => {
-          const patchPayload = { ...editedPayload, postId: name };
-          const editedPostId = name;
-          postIdNew = editedPostId;
-          updatePost(patchPayload).then(() => {
-            const originalPostPayload = {
-              ...originalPost,
-              ghostParentPost: postIdNew,
-              isGhost: true,
-              color: originalPost.color,
-              postId: originalPost.postId,
-            };
-            // Create ghost post with the same key as the original post
-            updateGhostPost(originalPost.postId, originalPostPayload)
-              .then(() => {
-                // Delete the original post
-                deletePost(originalPost.postId).then(() => {
-                  router.push('/postSpace');
-                });
-              });
+        updatePost(editedPayload).then(() => {
+          const originalPostPayload = {
+            ...originalPost,
+            ghostParentPost: posting?.postId,
+            isGhost: true,
+            color: originalPost.color,
+          };
+          createGhostPost(originalPostPayload).then((createdGhostPost) => {
+            const ghostPostPatch = { postId: createdGhostPost.name };
+            updatePost(ghostPostPatch).then(() => {
+              router.push('/postSpace');
+            });
           });
         });
       }

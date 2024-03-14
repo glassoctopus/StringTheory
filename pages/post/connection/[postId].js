@@ -3,12 +3,13 @@ import { useRouter } from 'next/router';
 import Button from 'react-bootstrap/Button';
 import Link from 'next/link';
 // eslint-disable-next-line import/extensions
-import { getSinglePost, getAllGhostPosts } from '../../api/postData';
-// import PostCard from '../../components/PostCard';
-import GhostPostCard from '../../components/GhostPostCard';
-import { onlyGhostPosts } from '../../utils/doWhat';
+import { getSinglePost, getGhostPosts } from '../../../api/postData';
+// eslint-disable-next-line import/extensions
+import GhostPostCard from '../../../components/GhostPostCard';
+// eslint-disable-next-line import/extensions
+import ConnectionPost from '../../../components/ConnectionPost';
 
-export default function ViewPost() {
+export default function ViewpPost() {
   const [postDetails, setPostDetails] = useState({});
   const [ghostPosts, setGhostPosts] = useState([]);
   const router = useRouter();
@@ -17,10 +18,9 @@ export default function ViewPost() {
   const { postId } = router.query;
 
   const getAllTheGhostPosts = useCallback(() => {
-    getAllGhostPosts(postDetails.thePostersId).then((GhostPostsData) => {
-      const sortedGhosts = onlyGhostPosts(GhostPostsData ?? []);
-      const ghostsOfThisPost = sortedGhosts.filter((ghostPostsSpecificTo) => ghostPostsSpecificTo.ghostParentPost === postDetails.postId);
-      setGhostPosts((prevGhostPosts) => [...prevGhostPosts, ...ghostsOfThisPost]);
+    getGhostPosts(postDetails.thePostersId).then((ghostPostsData) => {
+      // find the first in the chain of ghost posts
+      setGhostPosts(ghostPostsData);
     });
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [postDetails?.thePostersId]);
@@ -62,6 +62,11 @@ export default function ViewPost() {
         </Link>
         <hr />
       </div>
+      <div>
+        {/* connectionPosts (String post) creation */}
+        <p> not loading my componenet</p>
+        <ConnectionPost postDetails={postDetails} />
+      </div>
       <div
         className="text-center d-flex flex-column justify-content-center align-content-center"
         style={{
@@ -77,9 +82,6 @@ export default function ViewPost() {
             overflowY: 'scroll',
           }}
         >
-          {/* <Link href="/new" passHref>
-        <Button>Add A Post</Button>
-      </Link> */}
           <h2>{ghostPosts ? 'ghostPosts loaded' : 'No ghostPosts'}</h2>
           <h3>{}</h3>
           {/* TODO: map over post  */}

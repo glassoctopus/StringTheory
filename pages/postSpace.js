@@ -3,10 +3,10 @@ import Link from 'next/link';
 import { Button } from 'react-bootstrap';
 import { useAuth } from '../utils/context/authContext';
 // eslint-disable-next-line import/extensions
-import { getPosts, getGhostPosts } from '../api/postData';
+import { getPostsByUser, getAllGhostPosts } from '../api/postData';
 import PostCard from '../components/PostCard';
 import GhostPostCard from '../components/GhostPostCard';
-import getGhostsOfParent from '../utils/doWhat';
+import { getGhostsOfParent, onlyPosts, onlyGhostPosts } from '../utils/doWhat';
 
 function PostSpace() {
   const [posts, setPosts] = useState([]);
@@ -17,30 +17,36 @@ function PostSpace() {
   const { user } = useAuth();
 
   const getUsersPosts = useCallback(() => {
-    getPosts(user.uid).then((PostsData) => {
-      setPosts((prevPosts) => [...prevPosts, ...PostsData]);
+    getPostsByUser(user.uid).then((PostsData) => {
+      const sorted = onlyPosts(PostsData ?? []);
+      setPosts((prevPosts) => [...prevPosts, ...sorted]);
     });
   }, [user.uid]);
 
   const getUsersGhostPosts = useCallback(() => {
-    getGhostPosts(user.uid, true).then((GhostPostsData) => {
-      setGhostPosts((prevGhostPosts) => [...prevGhostPosts, ...GhostPostsData]);
+    getAllGhostPosts(user.uid).then((GhostPostsData) => {
+      const sortedGhosts = onlyGhostPosts(GhostPostsData ?? []);
+      setGhostPosts((prevGhostPosts) => [...prevGhostPosts, ...sortedGhosts]);
     });
   }, [user.uid]);
 
   const allchainsOfAllPosts = useCallback(() => {
-    const updatedallPostsAndChains = [];
+    const allPosts = [...posts, ...ghostPosts];
 
-    posts.forEach((post) => {
-      let chainOfPostsForPost = [];
-      const postHasGhosts = ghostPosts.some((ghostPost) => ghostPost.ghostParentPost === post.postId);
+    // Remove duplicates based on postId
+    const uniquePosts = Array.from(new Set(allPosts.map((post) => post.postId)))
+      .map((postId) => allPosts.find((post) => post.postId === postId));
 
-      if (postHasGhosts) {
-        chainOfPostsForPost = getGhostsOfParent(post, ghostPosts);
-      } else {
-        chainOfPostsForPost.push(post);
+    const updatedallPostsAndChains = uniquePosts.map((post) => {
+      if (post.isGhost) {
+        const chain = [post, ...getGhostsOfParent(post, ghostPosts)];
+        // Remove duplicate ghost posts
+        const uniqueChain = chain.filter((uPost, index, self) => index === self.findIndex((p) => (
+          p.postId === uPost.postId
+        )));
+        return uniqueChain;
       }
-      updatedallPostsAndChains.push(chainOfPostsForPost);
+      return [post];
     });
 
     setAllPostsAndChains(updatedallPostsAndChains);
@@ -68,42 +74,35 @@ function PostSpace() {
         margin: '0 auto',
       }}
     >
-      <div
-        className="d-flex flex-wrap"
-        style={{
-          overflowY: 'scroll',
-        }}
-      >
+      <h3>Welcome to your Post Space</h3>
+      <div>
         <Link href="/createPost" passHref>
           <Button>Add A Post</Button>
         </Link>
-        <h2>{posts ? 'Posts loaded' : 'No Posts'}</h2>
-        <h3>{}</h3>
-        <div
-          className="d-flex flex-nowrap"
-          style={{
-            display: 'flex',
-            flexWrap: 'nowrap',
-            overflowX: 'auto',
-            maxHeight: '70vh',
-          }}
-        >
-          {/* map over chainOfPosts */}
-          {allPostsAndChains.map((chainOfPosts, index) => (
-            // eslint-disable-next-line react/no-array-index-key
-            <div key={index}>
-              {chainOfPosts.map((post) => (
-                <div key={post.postId} style={{ marginRight: '10px' }}>
-                  {post.isGhost ? (
-                    <GhostPostCard postObj={{ ...post }} onUpdate={getUsersGhostPosts} />
-                  ) : (
-                    <PostCard postObj={{ ...post }} onUpdate={getUsersPosts} />
-                  )}
-                </div>
-              ))}
-            </div>
-          ))}
-        </div>
+      </div>
+      <h2>{posts ? 'Posts loaded' : 'No Posts'}</h2>
+      <h3>{}</h3>
+      <div
+        className="d-flex flex-wrap"
+        style={{
+          maxHeight: '70vh',
+          overflowY: 'auto',
+        }}
+      >
+        {allPostsAndChains.map((chainOfPosts, index) => (
+          // eslint-disable-next-line react/no-array-index-key
+          <div key={index} className="d-flex flex-nowrap">
+            {chainOfPosts.map((post) => (
+              <div key={post.postId} style={{ marginRight: '10px' }}>
+                {post.isGhost ? (
+                  <GhostPostCard postObj={{ ...post }} onUpdate={getUsersGhostPosts} />
+                ) : (
+                  <PostCard postObj={{ ...post }} onUpdate={getUsersPosts} />
+                )}
+              </div>
+            ))}
+          </div>
+        ))}
       </div>
     </div>
   );

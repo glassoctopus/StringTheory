@@ -1,4 +1,3 @@
-import firebase from 'firebase/app';
 import { clientCredentials } from '../utils/client';
 import 'firebase/database';
 
@@ -6,8 +5,20 @@ import 'firebase/database';
 
 const endpoint = clientCredentials.databaseURL;
 
-const getPosts = (thePostersId) => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/posts.json?orderBy="thePostersId"&equalTo="${thePostersId}"`, {
+const getSinglePost = (PostId) => new Promise((resolve, reject) => {
+  fetch(`${endpoint}/posts/${PostId}.json`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+    .then((response) => response.json())
+    .then((data) => resolve(data))
+    .catch(reject);
+});
+
+const getPostsByUser = (uid) => new Promise((resolve, reject) => {
+  fetch(`${endpoint}/posts.json?orderBy="thePostersId"&equalTo="${uid}"`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -18,8 +29,8 @@ const getPosts = (thePostersId) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
-const getGhostPosts = (uid) => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/ghostPosts.json?orderBy="thePostersId"&equalTo="${uid}"`, {
+const getConnectionPost = (postId) => new Promise((resolve, reject) => {
+  fetch(`${endpoint}/posts.json?orderBy="postId"&equalTo="${postId}"`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -42,8 +53,8 @@ const getAllPosts = () => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
-const getAllGhostPosts = () => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/ghostPosts.json`, {
+const getAllGhostPosts = (uid) => new Promise((resolve, reject) => {
+  fetch(`${endpoint}/posts.json?orderBy="thePostersId"&equalTo="${uid}"`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -66,18 +77,6 @@ const deletePost = (PostId) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
-const getSinglePost = (PostId) => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/posts/${PostId}.json`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  })
-    .then((response) => response.json())
-    .then((data) => resolve(data))
-    .catch(reject);
-});
-
 const createPost = (payload) => new Promise((resolve, reject) => {
   fetch(`${endpoint}/posts.json`, {
     method: 'POST',
@@ -92,7 +91,20 @@ const createPost = (payload) => new Promise((resolve, reject) => {
 });
 
 const createGhostPost = (payload) => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/ghostPosts.json`, {
+  fetch(`${endpoint}/posts.json`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(payload),
+  })
+    .then((response) => response.json())
+    .then((data) => resolve(data))
+    .catch(reject);
+});
+
+const createConnectionPost = (payload) => new Promise((resolve, reject) => {
+  fetch(`${endpoint}/posts.json`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -117,23 +129,43 @@ const updatePost = (payload) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
-// Function to update a ghost post in ghostPosts endpoint
-const updateGhostPost = (postId, data) => new Promise((resolve, reject) => {
-  const ghostPostRef = firebase.database().ref(`/ghostPosts/${postId}`);
-  ghostPostRef.update(data)
-    .then(() => resolve())
-    .catch((error) => reject(error));
+const updateGhostPost = (payload) => new Promise((resolve, reject) => {
+  fetch(`${endpoint}/posts/${payload.postId}.json`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(payload),
+  })
+    .then((response) => response.json())
+    .then((data) => resolve(data))
+    .catch(reject);
+});
+
+const updateConnectionPost = (payload) => new Promise((resolve, reject) => {
+  fetch(`${endpoint}/posts/${payload.postId}.json`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(payload),
+  })
+    .then((response) => response.json())
+    .then((data) => resolve(data))
+    .catch(reject);
 });
 
 export {
-  getPosts,
-  getGhostPosts,
+  getSinglePost,
+  getPostsByUser,
+  getConnectionPost,
   getAllPosts,
   getAllGhostPosts,
+  deletePost,
   createPost,
   createGhostPost,
-  deletePost,
-  getSinglePost,
+  createConnectionPost,
   updatePost,
   updateGhostPost,
+  updateConnectionPost,
 };
