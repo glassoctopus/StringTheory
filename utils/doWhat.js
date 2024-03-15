@@ -34,4 +34,13 @@ const onlyGhostPosts = (postsArray) => {
   console.log(onlyGhosts);
   return onlyGhosts;
 };
-export { getGhostsOfParent, onlyPosts, onlyGhostPosts };
+
+const onlyConnectionPosts = (postsArray) => {
+  const onlyConnections = postsArray.filter((post) => post.isConnection);
+  console.log(onlyConnections);
+  return onlyConnections;
+};
+
+export {
+  getGhostsOfParent, onlyPosts, onlyGhostPosts, onlyConnectionPosts,
+};

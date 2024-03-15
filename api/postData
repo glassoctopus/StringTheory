@@ -29,18 +29,6 @@ const getPostsByUser = (uid) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
-const getConnectionPost = (postId) => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/posts.json?orderBy="postId"&equalTo="${postId}"`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  })
-    .then((response) => response.json())
-    .then((data) => resolve(Object.values(data)))
-    .catch(reject);
-});
-
 const getAllPosts = () => new Promise((resolve, reject) => {
   fetch(`${endpoint}/posts.json`, {
     method: 'GET',
@@ -158,7 +146,6 @@ const updateConnectionPost = (payload) => new Promise((resolve, reject) => {
 export {
   getSinglePost,
   getPostsByUser,
-  getConnectionPost,
   getAllPosts,
   getAllGhostPosts,
   deletePost,
