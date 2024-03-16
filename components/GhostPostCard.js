@@ -11,6 +11,8 @@ function PostCard({ postObj }) {
         border: `7px double #${postObj.color}`,
         background: 'transparet',
         color: `#${postObj.color}`,
+        maxHeight: '13rem',
+        opacity: 0.5,
       }}
     >
       <div className="card-header">

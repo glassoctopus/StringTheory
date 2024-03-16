@@ -25,19 +25,16 @@ const getGhostsOfParent = (parentPost, ghostPostsArray) => {
 
 const onlyPosts = (postsArray) => {
   const onlyThePosts = postsArray.filter((post) => !post.isGhost && !post.isConnection);
-  console.log(onlyThePosts);
   return onlyThePosts;
 };
 
 const onlyGhostPosts = (postsArray) => {
   const onlyGhosts = postsArray.filter((post) => post.isGhost);
-  console.log(onlyGhosts);
   return onlyGhosts;
 };
 
 const onlyConnectionPosts = (postsArray) => {
-  const onlyConnections = postsArray.filter((post) => post.isConnection);
-  console.log(onlyConnections);
+  const onlyConnections = postsArray.filter((post) => post.isConnectionPost);
   return onlyConnections;
 };
 

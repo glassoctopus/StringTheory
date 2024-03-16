@@ -3,12 +3,13 @@ import { useRouter } from 'next/router';
 import Button from 'react-bootstrap/Button';
 import Link from 'next/link';
 // eslint-disable-next-line import/extensions
-import { getSinglePost, getAllGhostPosts } from '../../api/postData';
-// import PostCard from '../../components/PostCard';
+import { getSinglePost, getAllPosts } from '../../api/postData';
+import PostCard from '../../components/PostCard';
 import GhostPostCard from '../../components/GhostPostCard';
-import { onlyGhostPosts } from '../../utils/doWhat';
+import { onlyGhostPosts, onlyConnectionPosts } from '../../utils/doWhat';
 
 export default function ViewPost() {
+  const [connectedPosts, setConnectedPosts] = useState([]);
   const [postDetails, setPostDetails] = useState({});
   const [ghostPosts, setGhostPosts] = useState([]);
   const router = useRouter();
@@ -16,8 +17,17 @@ export default function ViewPost() {
   // grab postId from url
   const { postId } = router.query;
 
+  const getAllTheConnectedPosts = useCallback(() => {
+    getAllPosts(postDetails.thePostersId).then((connectedPostsData) => {
+      const sortedConnected = onlyConnectionPosts(connectedPostsData ?? []);
+      const connectedToThisPost = sortedConnected.filter((connectedPostsSpecificTo) => connectedPostsSpecificTo.originalPostId === postDetails.postId);
+      setConnectedPosts((prevConnectedPosts) => [...prevConnectedPosts, ...connectedToThisPost]);
+    });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [postDetails?.thePostersId]);
+
   const getAllTheGhostPosts = useCallback(() => {
-    getAllGhostPosts(postDetails.thePostersId).then((GhostPostsData) => {
+    getAllPosts(postDetails.thePostersId).then((GhostPostsData) => {
       const sortedGhosts = onlyGhostPosts(GhostPostsData ?? []);
       const ghostsOfThisPost = sortedGhosts.filter((ghostPostsSpecificTo) => ghostPostsSpecificTo.ghostParentPost === postDetails.postId);
       setGhostPosts((prevGhostPosts) => [...prevGhostPosts, ...ghostsOfThisPost]);
@@ -31,10 +41,20 @@ export default function ViewPost() {
   }, [postId]);
 
   useEffect(() => {
+    console.log('Post details:', postDetails);
+  }, [postDetails]);
+
+  useEffect(() => {
     if (postDetails.thePostersId) {
       getAllTheGhostPosts();
     }
   }, [postDetails?.thePostersId, getAllTheGhostPosts]);
+
+  useEffect(() => {
+    if (postDetails.thePostersId) {
+      getAllTheConnectedPosts();
+    }
+  }, [postDetails?.thePostersId, getAllTheConnectedPosts]);
 
   return (
     <div className="mt-5 d-flex flex-wrap">
@@ -68,6 +88,33 @@ export default function ViewPost() {
           height: '90vh',
           padding: '30px',
           maxWidth: '666px',
+          maxHeight: '333px',
+          margin: '0 auto',
+        }}
+      >
+        <div
+          className="d-flex flex-wrap"
+          style={{
+            overflowX: 'scroll',
+          }}
+        >
+
+          <div><h3>*******</h3></div>
+          <h2>{connectedPosts ? 'connectedPosts loaded' : 'No connectedPosts'}</h2>
+          <h3>{}</h3>
+          {/* TODO: map over post  */}
+          {connectedPosts.map((post) => (
+            <PostCard key={post.postId} postObj={{ ...post }} onUpdate={getAllTheConnectedPosts} />
+          ))}
+        </div>
+      </div>
+      <div
+        className="text-center d-flex flex-column justify-content-center align-content-center"
+        style={{
+          height: '90vh',
+          padding: '30px',
+          maxWidth: '666px',
+          maxHeight: '223px',
           margin: '0 auto',
         }}
       >
@@ -77,9 +124,8 @@ export default function ViewPost() {
             overflowY: 'scroll',
           }}
         >
-          {/* <Link href="/new" passHref>
-        <Button>Add A Post</Button>
-      </Link> */}
+
+          <div><h3>*******</h3></div>
           <h2>{ghostPosts ? 'ghostPosts loaded' : 'No ghostPosts'}</h2>
           <h3>{}</h3>
           {/* TODO: map over post  */}

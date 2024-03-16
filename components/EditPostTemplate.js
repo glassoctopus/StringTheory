@@ -8,7 +8,7 @@ import 'firebase/database';
 import { useAuth } from '../utils/context/authContext';
 import {
   // eslint-disable-next-line no-unused-vars
-  getSinglePost, updatePost, createGhostPost,
+  getSinglePost, updatePost, createPost,
 // eslint-disable-next-line import/extensions
 } from '../api/postData';
 
@@ -93,7 +93,7 @@ const EditPostTemplate = ({ onUpdate }) => {
             isGhost: true,
             color: originalPost.color,
           };
-          createGhostPost(originalPostPayload).then((createdGhostPost) => {
+          createPost(originalPostPayload).then((createdGhostPost) => {
             const ghostPostPatch = { postId: createdGhostPost.name };
             updatePost(ghostPostPatch).then(() => {
               router.push('/postSpace');

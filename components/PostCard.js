@@ -7,6 +7,7 @@ import { useAuth } from '../utils/context/authContext';
 function PostCard({ postObj }) {
   const { user } = useAuth();
   const isViewerAuthUser = user && user.uid === postObj.thePostersId;
+  const doesHaveConnections = postObj.hasConnectedPosts ? postObj.hasConnectedPosts : false;
 
   return (
     <div
@@ -38,7 +39,6 @@ function PostCard({ postObj }) {
         <Link href={`/post/${postObj.postId}`} passHref>
           <Button variant="primary" className="m-2">VIEW</Button>
         </Link>
-        {/* DYNAMIC LINK TO EDIT THE post DETAILS  */}
         {isViewerAuthUser ? (
           <Link href={`/post/edit/${postObj.postId}`} passHref>
             <Button variant="info">EDIT</Button>
@@ -47,6 +47,14 @@ function PostCard({ postObj }) {
           <Link href={`/post/connection/${postObj.postId}`} passHref>
             <Button variant="info">String off this post</Button>
           </Link>
+        )}
+        {/* DYNAMIC LINK TO EDIT THE post DETAILS  */}
+        {doesHaveConnections ? (
+          <Link href={`/post/${postObj.postId}`} passHref>
+            <Button variant="info">Follow String?</Button>
+          </Link>
+        ) : (
+          <div />
         )}
       </div>
     </div>
@@ -61,6 +69,7 @@ PostCard.propTypes = {
     postBody: PropTypes.string,
     color: PropTypes.string,
     timeStamp: PropTypes.string,
+    hasConnectedPosts: PropTypes.bool,
     isGhost: PropTypes.bool,
   }).isRequired,
 };
