@@ -41,10 +41,6 @@ export default function ViewPost() {
   }, [postId]);
 
   useEffect(() => {
-    console.log('Post details:', postDetails);
-  }, [postDetails]);
-
-  useEffect(() => {
     if (postDetails.thePostersId) {
       getAllTheGhostPosts();
     }
