@@ -70,17 +70,17 @@ function PostSpace() {
         margin: '0 auto',
       }}
     >
+      <Link href="/createPost" passHref>
+        <Button>Add A Post</Button>
+      </Link>
+      <h2>{posts ? 'Posts loaded' : 'No Posts'}</h2>
+      <h3>{}</h3>
       <div
         className="d-flex flex-wrap"
         style={{
           overflowY: 'scroll',
         }}
       >
-        <Link href="/createPost" passHref>
-          <Button>Add A Post</Button>
-        </Link>
-        <h2>{posts ? 'Posts loaded' : 'No Posts'}</h2>
-        <h3>{}</h3>
         <div
           className="d-flex flex-nowrap"
           style={{

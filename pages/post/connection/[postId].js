@@ -3,11 +3,12 @@ import { useRouter } from 'next/router';
 import Button from 'react-bootstrap/Button';
 import Link from 'next/link';
 // eslint-disable-next-line import/extensions
-import { getSinglePost, getGhostPosts } from '../../../api/postData';
+import { getSinglePost, getAllPosts } from '../../../api/postData';
 // eslint-disable-next-line import/extensions
 import GhostPostCard from '../../../components/GhostPostCard';
 // eslint-disable-next-line import/extensions
 import ConnectionPost from '../../../components/ConnectionPost';
+import { onlyGhostPosts } from '../../../utils/doWhat';
 
 export default function ViewpPost() {
   const [postDetails, setPostDetails] = useState({});
@@ -17,10 +18,11 @@ export default function ViewpPost() {
   // grab postId from url
   const { postId } = router.query;
 
-  const getAllTheGhostPosts = useCallback(() => {
-    getGhostPosts(postDetails.thePostersId).then((ghostPostsData) => {
-      // find the first in the chain of ghost posts
-      setGhostPosts(ghostPostsData);
+  const getRelevantGhostPosts = useCallback(() => {
+    getAllPosts().then((GhostPostsData) => {
+      const sortedGhosts = onlyGhostPosts(GhostPostsData ?? []);
+      const thisPostGhosts = sortedGhosts.filter((ghostPost) => ghostPost.ghostParentPost === postDetails.thePostersId);
+      setGhostPosts((prevGhostPosts) => [...prevGhostPosts, ...thisPostGhosts]);
     });
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [postDetails?.thePostersId]);
@@ -32,9 +34,9 @@ export default function ViewpPost() {
 
   useEffect(() => {
     if (postDetails.thePostersId) {
-      getAllTheGhostPosts();
+      getRelevantGhostPosts();
     }
-  }, [postDetails?.thePostersId, getAllTheGhostPosts]);
+  }, [postDetails?.thePostersId, getRelevantGhostPosts]);
 
   return (
     <div className="mt-5 d-flex flex-wrap">
@@ -65,7 +67,7 @@ export default function ViewpPost() {
       <div>
         {/* connectionPosts (String post) creation */}
         <p> not loading my componenet</p>
-        <ConnectionPost postDetails={postDetails} />
+        <ConnectionPost postDetails={postDetails} postId={postId} />
       </div>
       <div
         className="text-center d-flex flex-column justify-content-center align-content-center"
@@ -86,7 +88,7 @@ export default function ViewpPost() {
           <h3>{}</h3>
           {/* TODO: map over post  */}
           {ghostPosts.map((post) => (
-            <GhostPostCard key={post.postId} postObj={{ ...post }} onUpdate={getAllTheGhostPosts} />
+            <GhostPostCard key={post.postId} postObj={{ ...post }} onUpdate={getRelevantGhostPosts} />
           ))}
         </div>
       </div>

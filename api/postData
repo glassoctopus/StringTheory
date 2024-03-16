@@ -29,32 +29,8 @@ const getPostsByUser = (uid) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
-const getConnectionPost = (postId) => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/posts.json?orderBy="postId"&equalTo="${postId}"`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  })
-    .then((response) => response.json())
-    .then((data) => resolve(Object.values(data)))
-    .catch(reject);
-});
-
 const getAllPosts = () => new Promise((resolve, reject) => {
   fetch(`${endpoint}/posts.json`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  })
-    .then((response) => response.json())
-    .then((data) => resolve(Object.values(data)))
-    .catch(reject);
-});
-
-const getAllGhostPosts = (uid) => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/posts.json?orderBy="thePostersId"&equalTo="${uid}"`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -90,59 +66,7 @@ const createPost = (payload) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
-const createGhostPost = (payload) => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/posts.json`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(payload),
-  })
-    .then((response) => response.json())
-    .then((data) => resolve(data))
-    .catch(reject);
-});
-
-const createConnectionPost = (payload) => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/posts.json`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(payload),
-  })
-    .then((response) => response.json())
-    .then((data) => resolve(data))
-    .catch(reject);
-});
-
 const updatePost = (payload) => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/posts/${payload.postId}.json`, {
-    method: 'PATCH',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(payload),
-  })
-    .then((response) => response.json())
-    .then((data) => resolve(data))
-    .catch(reject);
-});
-
-const updateGhostPost = (payload) => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/posts/${payload.postId}.json`, {
-    method: 'PATCH',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(payload),
-  })
-    .then((response) => response.json())
-    .then((data) => resolve(data))
-    .catch(reject);
-});
-
-const updateConnectionPost = (payload) => new Promise((resolve, reject) => {
   fetch(`${endpoint}/posts/${payload.postId}.json`, {
     method: 'PATCH',
     headers: {
@@ -158,14 +82,8 @@ const updateConnectionPost = (payload) => new Promise((resolve, reject) => {
 export {
   getSinglePost,
   getPostsByUser,
-  getConnectionPost,
   getAllPosts,
-  getAllGhostPosts,
   deletePost,
   createPost,
-  createGhostPost,
-  createConnectionPost,
   updatePost,
-  updateGhostPost,
-  updateConnectionPost,
 };

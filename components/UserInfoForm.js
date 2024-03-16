@@ -35,7 +35,6 @@ function UserForm({ obj }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     const timeStamp = rightNow();
-    console.warn('at ', timeStamp, 'user profile of this google authenticated user was created (or just edited ;^)');
     if (obj.userId) {
       updateUser(formInput).then(() => router.push(`/user/${obj.userId}`));
     } else {
