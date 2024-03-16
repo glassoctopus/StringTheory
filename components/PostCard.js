@@ -14,8 +14,9 @@ function PostCard({ postObj }) {
       className="card"
       style={{
         width: '31rem',
-        margin: '10px',
+        margin: '13px',
         border: `7px double #${postObj.color}`,
+        padding: '13px',
         background: 'transparet',
         color: `#${postObj.color}`,
       }}

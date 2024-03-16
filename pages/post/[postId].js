@@ -7,12 +7,15 @@ import { getSinglePost, getAllPosts } from '../../api/postData';
 import PostCard from '../../components/PostCard';
 import GhostPostCard from '../../components/GhostPostCard';
 import { onlyGhostPosts, onlyConnectionPosts } from '../../utils/doWhat';
+import { useAuth } from '../../utils/context/authContext';
 
 export default function ViewPost() {
   const [connectedPosts, setConnectedPosts] = useState([]);
   const [postDetails, setPostDetails] = useState({});
   const [ghostPosts, setGhostPosts] = useState([]);
   const router = useRouter();
+  const { user } = useAuth();
+  const isViewerAuthUser = user && user.uid === postDetails?.thePostersId;
 
   // grab postId from url
   const { postId } = router.query;
@@ -58,6 +61,8 @@ export default function ViewPost() {
       <div
         className="text-white ms-5 details"
         style={{
+          margin: '10px',
+          padding: '10px',
           border: `7px double #${postDetails?.color}`,
         }}
       >
@@ -73,8 +78,16 @@ export default function ViewPost() {
         >
           <p>{postDetails?.color} is the color selection in hex value for this post.</p>
         </div>
-        <Link href={`edit/${postDetails?.postId}`} passHref>
-          <Button variant="info">EDIT</Button>
+        {isViewerAuthUser ? (
+          <Link href={`/post/edit/${postDetails.postId}`} passHref>
+            <Button variant="info">EDIT</Button>
+          </Link>
+        ) : (
+          <div />
+        )}
+        <hr />
+        <Link href="/postSpaceWeb" passHref>
+          <Button variant="info">back to browsing</Button>
         </Link>
         <hr />
       </div>
@@ -84,7 +97,7 @@ export default function ViewPost() {
           height: '90vh',
           padding: '30px',
           maxWidth: '666px',
-          maxHeight: '333px',
+          maxHeight: '616px',
           margin: '0 auto',
         }}
       >
@@ -96,7 +109,7 @@ export default function ViewPost() {
         >
 
           <div><h3>*******</h3></div>
-          <h2>{connectedPosts ? 'connectedPosts loaded' : 'No connectedPosts'}</h2>
+          <h2>{connectedPosts.length} {connectedPosts ? 'connectedPosts loaded' : 'No connectedPosts'}</h2>
           <h3>{}</h3>
           {/* TODO: map over post  */}
           {connectedPosts.map((post) => (
@@ -122,7 +135,7 @@ export default function ViewPost() {
         >
 
           <div><h3>*******</h3></div>
-          <h2>{ghostPosts ? 'ghostPosts loaded' : 'No ghostPosts'}</h2>
+          <h2>{ghostPosts.length} {ghostPosts ? 'ghostPosts loaded' : 'No ghostPosts'}</h2>
           <h3>{}</h3>
           {/* TODO: map over post  */}
           {ghostPosts.map((post) => (
