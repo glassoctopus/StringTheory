@@ -12,7 +12,7 @@ function PostCard({ postObj }) {
         padding: '13px',
         background: 'transparet',
         color: `#${postObj.color}`,
-        maxHeight: '13rem',
+        maxHeight: '23rem',
         opacity: 0.5,
       }}
     >
