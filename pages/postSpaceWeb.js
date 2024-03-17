@@ -73,7 +73,7 @@ function PostSpace() {
       <Link href="/createPost" passHref>
         <Button>Add A Post</Button>
       </Link>
-      <h2>{posts ? 'Posts loaded' : 'No Posts'}</h2>
+      <h2>{posts ? posts.length : ' '} {posts ? 'Posts loaded' : 'No Posts'}</h2>
       <h3>{}</h3>
       <div
         className="d-flex flex-wrap"
