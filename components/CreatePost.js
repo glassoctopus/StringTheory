@@ -73,7 +73,12 @@ function CreatePost({ onUpdate }) {
     <div
       className="card"
       style={{
-        width: '31rem', margin: '10px', border: `7px double #${user.color}`, background: 'transparent', color: `#${user.color}`,
+        width: '31rem',
+        margin: '10px',
+        border: `7px double #${user.color}`,
+        padding: '10px',
+        background: 'transparent',
+        color: `#${user.color}`,
       }}
     >
       <div className="card-header">

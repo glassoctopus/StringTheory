@@ -6,7 +6,7 @@ import rightNow from '../utils/aTimeStamp';
 import { useAuth } from '../utils/context/authContext';
 // eslint-disable-next-line import/extensions
 import {
-  createConnectionPost, updateConnectionPost, updatePost,
+  createPost, updatePost,
 // eslint-disable-next-line import/extensions
 } from '../api/postData';
 
@@ -74,9 +74,9 @@ function ConnectionPost({ postDetails, postId }) {
           ghostParentPost: posting?.ghostParentPost || '',
           isConnectionPost: true,
         };
-        createConnectionPost(payload).then(({ name }) => {
+        createPost(payload).then(({ name }) => {
           const patchPayload = { ...payload, postId: name };
-          updateConnectionPost(patchPayload).then(() => {
+          updatePost(patchPayload).then(() => {
             parentPostHasConnection();
             router.push('/postSpace');
           });
@@ -117,8 +117,6 @@ ConnectionPost.propTypes = {
     connectedPosts: PropTypes.arrayOf(PropTypes.string),
   }).isRequired,
   postId: PropTypes.string.isRequired,
-  // eslint-disable-next-line react/require-default-props
-  // onUpdate: PropTypes.func,
 };
 
 export default ConnectionPost;

@@ -59,9 +59,16 @@ export default function ViewpPost() {
         >
           <p>{postDetails?.color} is the color selection in hex value for this post.</p>
         </div>
-        <Link href={`edit/${postDetails?.postId}`} passHref>
-          <Button variant="info">EDIT</Button>
-        </Link>
+        <div>
+          <Link href="/postSpaceWeb" passHref>
+            <Button variant="info">back to browsing</Button>
+          </Link>
+        </div>
+        <div>
+          <Link href={`/post/${postId}`} passHref>
+            <Button variant="primary" className="m-2">VIEW</Button>
+          </Link>
+        </div>
         <hr />
       </div>
       <div>
