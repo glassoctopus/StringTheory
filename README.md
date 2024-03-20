@@ -16,4 +16,5 @@ My overall concept is creating a way that anyone can see anyone's posts, no frie
 
 Ideally I will be able to create a “canvas” not and actual html canvas, that will have visibility to all user’s posts, by panning around the scene (no scroll bars.)  Just javascript code to right (or left) click and grab the screen and move it like a figma or db diagram. 
 
-
+See the deployed App on netlify, please make a user profile and a posts. 
+https://stringtheorys.netlify.app
