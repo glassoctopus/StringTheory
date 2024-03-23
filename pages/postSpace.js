@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { Button } from 'react-bootstrap';
 import { useAuth } from '../utils/context/authContext';
 // eslint-disable-next-line import/extensions
-import { getPostsByUser, getAllPosts } from '../api/postData';
+import { getPostsByUser } from '../api/postData';
 import PostCard from '../components/PostCard';
 import GhostPostCard from '../components/GhostPostCard';
 import { getGhostsOfParent, onlyPosts, onlyGhostPosts } from '../utils/doWhat';
@@ -24,7 +24,7 @@ function PostSpace() {
   }, [user.uid]);
 
   const getUsersGhostPosts = useCallback(() => {
-    getAllPosts(user.uid).then((GhostPostsData) => {
+    getPostsByUser(user.uid).then((GhostPostsData) => {
       const sortedGhosts = onlyGhostPosts(GhostPostsData ?? []);
       setGhostPosts((prevGhostPosts) => [...prevGhostPosts, ...sortedGhosts]);
     });
