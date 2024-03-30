@@ -1,4 +1,4 @@
-# String Theory, Thomas McMahon
+# String Theory, by Thomas McMahon
 
 Sometimes we make our Problems ;^)
 
