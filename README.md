@@ -1,3 +1,5 @@
+# String Theory, by Thomas McMahon
+
 Sometimes we make our Problems ;^)
 
 Social Media apps do not visually or instructionally inform you of how persistent or dangerous they are. Why not make a social app that illustrates this by design?
@@ -18,3 +20,4 @@ See the deployed App on netlify, please make a user profile and a posts. https:/
 
 If you pull it down, it's an npm run dev to get going.
 I am using firebase for this backend. 
+
