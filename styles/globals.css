@@ -33,6 +33,31 @@ h3{
 a{
   color: rgb(122, 122, 238);
 }
+
+.button{
+  background-color: transparent;
+  padding: 20px;
+  margin: 0 auto;
+  color: transparent;
+  border: 7px double #8b8a8a;
+  border-style: double;
+  border-radius: 13px;
+  box-shadow: 2px 2px 6px rgba(0,0,0,0.1);
+  max-height: 23rem;
+}
+
+Nav{
+  background-color: transparent;
+  padding: 20px;
+  margin: 0 auto;
+  color: transparent;
+  border: 7px double #8b8a8a;
+  border-style: double;
+  border-radius: 13px;
+  box-shadow: 2px 2px 6px rgba(0,0,0,0.1);
+  max-height: 23rem;
+}
+
 .grid-container {
   display: grid;
   grid-template-columns: auto auto auto;
@@ -56,15 +81,15 @@ a{
   color: #8b8a8a;
   border: 7px double #8b8a8a;
   border-style: double;
-  border-radius: 5px;
+  border-radius: 13px;
   box-shadow: 2px 2px 6px rgba(0,0,0,0.1);
   max-height: 23rem;
 }
 
 .card-header {
   padding: 10px;
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px; 
+  border-top-left-radius: 13px;
+  border-top-right-radius: 13px; 
 }
 
 .card-title {
@@ -88,8 +113,8 @@ a{
 
 .card-footer {
   padding: 10px;
-  border-bottom-left-radius: 5px;
-  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 13px;
+  border-bottom-right-radius: 13px;
 }
 
 /* Scrollbar */
