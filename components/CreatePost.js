@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import { useRouter } from 'next/router';
 import Button from 'react-bootstrap/Button';
 import rightNow from '../utils/aTimeStamp';
 import { useAuth } from '../utils/context/authContext';
 // eslint-disable-next-line import/extensions
-import { createPost, deletePost, updatePost } from '../api/postData';
+import { createPost, updatePost } from '../api/postData';
 
 const initialState = {
   postId: '',
@@ -18,7 +17,7 @@ const initialState = {
   ghostParentPost: '',
 };
 
-function CreatePost({ onUpdate }) {
+function CreatePost() {
   const [posting, setPosting] = useState(initialState);
   const [charCount, setCharCount] = useState(0);
   const router = useRouter();
@@ -38,7 +37,10 @@ function CreatePost({ onUpdate }) {
 
   const deleteThisPost = () => {
     if (window.confirm(`Delete ${posting?.postBody}?`)) {
-      deletePost(posting?.postId).then(() => onUpdate());
+      setPosting((prevState) => ({
+        ...prevState,
+        postBody: '',
+      }));
     }
   };
 
@@ -98,10 +100,5 @@ function CreatePost({ onUpdate }) {
     </div>
   );
 }
-
-CreatePost.propTypes = {
-  // eslint-disable-next-line react/require-default-props
-  onUpdate: PropTypes.func,
-};
 
 export default CreatePost;
