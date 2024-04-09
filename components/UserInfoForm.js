@@ -43,6 +43,7 @@ function UserForm({ obj }) {
         const patchPayload = { ...payload, userId: name };
         updateUser(patchPayload).then(() => {
           router.push('/postSpace');
+          window.location.reload();
         });
       });
     }
