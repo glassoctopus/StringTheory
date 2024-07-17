@@ -1,19 +1,19 @@
-# String Theory, by Thomas McMahon
+String Theory, by Thomas McMahon
 
-Sometimes we make our Problems ;^)
+Overview
+Social media platforms often fail to adequately inform users of the permanence and potential dangers of their posts. To address this, I've designed an innovative social app that highlights these issues by design.
 
-Social Media apps do not visually or instructionally inform you of how persistent or dangerous they are. Why not make a social app that illustrates this by design?
+Purpose
+This application serves as an artistic commentary on the futility of social media, the enduring nature of online content, and as a demonstration of my skills in full stack development.
 
-This App is artistic commentary on the futility of social media, the permanence of things on the internet, and demonstrating my ability to make a full stack app.
+Features
+Post and Connect: Create posts and link them to others to initiate conversations.
+Transparency: All edits to posts are visible, and deletion is not allowed, emphasizing the permanence of online content.
+Development
+String Theory is my first full stack application. It is a work in progress, and I will continue to refine it. For now, please disregard any data that is obviously for debugging purposes.
 
-Solution to self made problem 8^)
+Try It Out
+You can explore the app on Netlify. Feel free to create a user profile and make posts:  https://stringtheorys.netlify.app 
 
-Make Posts and string to others. Have a conversation. Do I have time to make it vuisually intresting?
-
-With Only one stipulation, all edits are visible. No deletion, ever. The internet is more permanent than we take for granted.
-
-See the deployed App on netlify, please make a user profile and a posts. https://stringtheorys.netlify.app
-
-If you pull it down, it's an npm run dev to get going.
-I am using firebase for this backend. 
-
+Getting Started
+If you would like to run the project locally, clone the repository and use the command npm run dev to get started. The backend is powered by Firebase.
