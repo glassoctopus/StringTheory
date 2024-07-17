@@ -11,13 +11,15 @@ This application serves as an artistic commentary on the futility of social medi
 Features:
 
 Post and Connect: 
-Create posts and link them to others to initiate conversations.
+
+Create posts and link them to others to initiate conversations. Full CRUD, there is delete functinality but it is not accesible through the interface.  
 
 Transparency: 
+
 All edits to posts are visible, and deletion is not allowed, emphasizing the permanence of online content.
 
-Development
 
+Development:
 String Theory is my first full stack application. It is a work in progress, and I will continue to refine it. For now, please disregard any data that is obviously for debugging purposes.
 
 Try It Out:
